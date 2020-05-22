@@ -28,6 +28,9 @@ class Core
         //Run the core. Start reading and executing commands
         void Run();
 
+        //Reads a string until a valid string is entered
+        static str ReadValid(bool (*IsValid)(const str&), const str& enterMsg, const str& invalidMsg);
+
     private:
 
         //Executes a command.

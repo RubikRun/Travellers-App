@@ -1,3 +1,4 @@
+#include "Core.hpp"
 #include "User.hpp"
 #include "Constants.hpp"
 
@@ -10,38 +11,17 @@ User::User(const str& username, const str& password, const str& email)
 
 str User::ReadUsername()
 {
-    return User::ReadInfoField(User::UsernameIsValid, ENTER_USERNAME, INVALID_USERNAME);
+    return Core::ReadValid(User::UsernameIsValid, ENTER_USERNAME, INVALID_USERNAME);
 }
 
 str User::ReadPassword()
 {
-    return User::ReadInfoField(User::PasswordIsValid, ENTER_PASSWORD, INVALID_PASSWORD);
+    return Core::ReadValid(User::PasswordIsValid, ENTER_PASSWORD, INVALID_PASSWORD);
 }
 
 str User::ReadEmail()
 {
-    return User::ReadInfoField(User::EmailIsValid, ENTER_EMAIL, INVALID_EMAIL);
-}
-
-str User::ReadInfoField(bool (*FieldIsValid)(const str&),
-    const str& enterFieldMsg, const str& invalidFieldMsg)
-{
-    str field;
-    bool valid;
-
-    do
-    {
-        std::cout << enterFieldMsg;
-        std::getline(std::cin, field);
-
-        valid = (*FieldIsValid)(field);
-        if (!valid)
-        {
-            std::cout << invalidFieldMsg << std::endl;
-        }
-    } while (!valid);
-
-    return field;
+    return Core::ReadValid(User::EmailIsValid, ENTER_EMAIL, INVALID_EMAIL);
 }
 
 bool User::UsernameIsValid(const str& username)

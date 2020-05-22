@@ -30,10 +30,6 @@ class User
     
     private:
 
-        //Used to read a field of user's info (username, password or email)
-        static str ReadInfoField(bool (*FieldIsValid)(const str&),
-            const str& enterFieldMsg, const str& invalidFieldMsg);
-
         //Checks if a username is valid
         static bool UsernameIsValid(const str& username);
 

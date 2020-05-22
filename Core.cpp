@@ -56,3 +56,23 @@ void Core::Register()
     //Add user to core's users
     m_users.push_back(user);
 }
+
+str Core::ReadValid(bool (*IsValid)(const str&), const str& enterMsg, const str& invalidMsg)
+{
+    str s;
+    bool valid;
+
+    do
+    {
+        std::cout << enterMsg;
+        std::getline(std::cin, s);
+
+        valid = (*IsValid)(s);
+        if (!valid)
+        {
+            std::cout << invalidMsg << std::endl;
+        }
+    } while (!valid);
+
+    return s;
+}
