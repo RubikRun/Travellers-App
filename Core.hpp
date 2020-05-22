@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 
 typedef std::string str;
 
@@ -14,8 +15,8 @@ class Core
     //The name of the file where all registered users are stored
     str m_usersFile;
 
-    //The user that is currently logged in
-    User* m_user;
+    //The user that is currently logged in (his index)
+    int m_userIndex;
 
     public:
 
@@ -29,7 +30,7 @@ class Core
         void Run();
 
         //Reads a string until a valid string is entered
-        static str ReadValid(bool (*IsValid)(const str&), const str& enterMsg, const str& invalidMsg);
+        static str ReadValid(std::function<bool(const str&)> IsValid, const str& enterMsg, const str& invalidMsg);
 
     private:
 
@@ -38,8 +39,20 @@ class Core
         bool ExecuteCommand(const str& command);
 
         //Shows the help message
-        void Help();
+        static void Help();
 
         //Registers a new user
         void Register();
+
+        //Logs in a user
+        void LogIn();
+
+        //Logs out the currently logged in user
+        void LogOut();
+
+        //Checks if a user with this username exists
+        bool UserExists(const str& username) const;
+
+        //Finds the user with this username, returns a pointer to it
+        int FindUser(const str& username) const;
 };

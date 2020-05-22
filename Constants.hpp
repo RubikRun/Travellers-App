@@ -19,6 +19,9 @@ const str REGISTER_COMMAND =
 const str LOGIN_COMMAND =
 "login";
 
+const str LOGOUT_COMMAND =
+"logout";
+
 const str WELCOME_MESSAGE =
 "\nHello! Welcome to " + APP_NAME + "!\n"
 "Type \"" + HELP_COMMAND + "\" if you don't know how to use it.\n";
@@ -64,6 +67,22 @@ const int MIN_EMAIL_DOMAIN_NETWORK_LEN = 2;
 const int MIN_EMAIL_LEN = MIN_EMAIL_NAME_LEN + 1 + MIN_EMAIL_DOMAIN_LEN + 1 + MIN_EMAIL_DOMAIN_NETWORK_LEN;
 const int MAX_EMAIL_LEN = 40;
 
-
 const str INVALID_EMAIL =
 "Not a valid email.\n";
+
+const str USER_NOT_FOUND =
+"There is no user with this username.\n";
+
+const int USER_INDEX_INVALID = -1;
+
+const str PASSWORD_WRONG =
+"Wrong password.\n";
+
+const str LOGIN_SUCCESSFUL =
+"You logged in successfully.\n";
+
+const str NOT_LOGGED_IN =
+"You are not logged in.\n";
+
+const str LOGOUT_SUCCESSFUL =
+"You logged out successfully.\n";

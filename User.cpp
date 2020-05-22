@@ -3,11 +3,22 @@
 #include "Constants.hpp"
 
 #include <iostream>
+#include <functional>
 
 User::User(){}
 
 User::User(const str& username, const str& password, const str& email)
     : m_username(username), m_password(password), m_email(email) {}
+
+const str& User::GetUsername() const
+{
+    return m_username;
+}
+
+bool User::PasswordCheck(const str& password)
+{
+    return (m_password == password);
+}
 
 str User::ReadUsername()
 {

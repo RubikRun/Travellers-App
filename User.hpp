@@ -19,6 +19,12 @@ class User
         //Creates a user with the given info
         User(const str& username, const str& password, const str& email);
 
+        //Returns user's username
+        const str& GetUsername() const;
+
+        //Checks if the given password is the same as the user's password
+        bool PasswordCheck(const str& password);
+
         //Reads a username and makes sure it's valid
         static str ReadUsername();
 
