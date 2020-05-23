@@ -37,6 +37,10 @@ const str HELP_MESSAGE =
 "   *To register type \"" + REGISTER_COMMAND + "\"\n"
 "   *To log in type \"" + LOGIN_COMMAND + "\"\n";
 
+const str INVALID_COMMAND_MESSAGE =
+"Not a valid command.\n"
+"Type \"" + HELP_COMMAND + "\" for more info.\n";
+
 const str ENTER_USERNAME =
 "Enter username: ";
 
@@ -90,6 +94,12 @@ const str NOT_LOGGED_IN =
 const str LOGOUT_SUCCESSFUL =
 "You logged out successfully.\n";
 
+#define VALIDATE(condition, invalidMsg, oninvalid) \
+if (!(condition)) { \
+    std::cout << invalidMsg << std::endl; \
+    oninvalid; \
+}
+
 #define CHECK_FILE_OPENED(file, filename, onerror) \
 if (!file.is_open()) { \
     std::cout << "Error: Cannot open file: " << filename << "\n\n"; \
@@ -104,3 +114,9 @@ if (file.is_open()) { \
 
 const str FILE_SEPARATOR =
 "\n";
+
+const str CANT_REGISTER_WHILE_LOGGEDIN =
+"Error: You cannot register while logged in.\n";
+
+const str ALREADY_LOGGEDIN = 
+"You are already logged in.\n";

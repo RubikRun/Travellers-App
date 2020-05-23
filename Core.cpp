@@ -15,7 +15,8 @@ Core::Core(const str& usersFile)
 {
     //Open database file
     std::ifstream dbFile(m_usersFile, std::ios::in);
-    CHECK_FILE_OPENED(dbFile, m_usersFile, return)
+    if (!dbFile.is_open())
+        return;
 
     //Read the number of users
     int usersCount;
@@ -45,9 +46,6 @@ void Core::Run()
         std::getline(std::cin, command);
     }
     while (this->ExecuteCommand(command));
-
-    //Save users to database
-    this->SaveUsers();
 }
 
 bool Core::ExecuteCommand(const str& command)
@@ -59,6 +57,7 @@ bool Core::ExecuteCommand(const str& command)
     else if (command == REGISTER_COMMAND) this->Register();
     else if (command == LOGIN_COMMAND) this->LogIn();
     else if (command == LOGOUT_COMMAND) this->LogOut();
+    else std::cout << INVALID_COMMAND_MESSAGE;
 
     return true;
 }
@@ -87,6 +86,8 @@ void Core::Help()
 
 void Core::Register()
 {
+    VALIDATE(m_userIndex == USER_INDEX_INVALID, CANT_REGISTER_WHILE_LOGGEDIN, return)
+
     //Read user's info
     str username = User::ReadUsername();
     str password = User::ReadPassword();
@@ -101,6 +102,8 @@ void Core::Register()
 
 void Core::LogIn()
 {
+    VALIDATE(m_userIndex == USER_INDEX_INVALID, ALREADY_LOGGEDIN, return)
+
     //Read username until a name of an existing user is entered
     str username = Core::ReadValid(
         [this](const str& username) { return this->UserExists(username); },
@@ -128,11 +131,7 @@ void Core::LogIn()
 
 void Core::LogOut()
 {
-    if (m_userIndex == USER_INDEX_INVALID)
-    {
-        std::cout << NOT_LOGGED_IN << std::endl;
-        return;
-    }
+    VALIDATE(m_userIndex != USER_INDEX_INVALID, NOT_LOGGED_IN, return)
 
     m_userIndex = USER_INDEX_INVALID;
     std::cout << LOGOUT_SUCCESSFUL << std::endl;
@@ -166,11 +165,13 @@ str Core::ReadValid(std::function<bool(const str&)> IsValid, const str& enterMsg
         std::getline(std::cin, s);
 
         valid = IsValid(s);
-        if (!valid)
-        {
-            std::cout << invalidMsg << std::endl;
-        }
+        VALIDATE(valid, invalidMsg,)
     } while (!valid);
 
     return s;
+}
+
+Core::~Core()
+{
+    this->SaveUsers();
 }
