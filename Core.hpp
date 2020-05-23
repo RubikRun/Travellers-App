@@ -53,6 +53,6 @@ class Core
         //Checks if a user with this username exists
         bool UserExists(const str& username) const;
 
-        //Finds the user with this username, returns a pointer to it
+        //Finds the user with this username, returns its index
         int FindUser(const str& username) const;
 };

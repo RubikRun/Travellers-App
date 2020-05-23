@@ -24,6 +24,7 @@ void Core::Run()
     do
     {
         std::cout << std::endl;
+        //If the user has logged in, print their username before each command they type
         if (m_userIndex != USER_INDEX_INVALID)
             std::cout << m_users[m_userIndex].GetUsername() << ": ";
         std::getline(std::cin, command);
@@ -33,6 +34,7 @@ void Core::Run()
 
 bool Core::ExecuteCommand(const str& command)
 {
+    //Handle each command type separately
     if (command == EXIT_COMMAND) return false;
     else if (command == HELP_COMMAND) Core::Help();
 

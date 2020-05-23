@@ -46,6 +46,7 @@ bool User::UsernameIsValid(const str& username)
 
 bool User::PasswordIsValid(const str& password)
 {
+    //Check if password has at least one digit and at lest one letter
     bool digit = false, letter = false;
     for (int i = 0; i < password.length(); i++)
     {
