@@ -51,7 +51,3 @@ class User
         //Writes user to stream
         friend std::ostream& operator<<(std::ostream& stream, const User& user);
 };
-
-
-std::istream& operator>>(std::istream& stream, User& user);
-std::ostream& operator<<(std::ostream& stream, const User& user);
