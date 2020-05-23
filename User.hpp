@@ -44,4 +44,14 @@ class User
 
         //Checks if an email is valid
         static bool EmailIsValid(const str& email);
+
+        //Reads user from stream
+        friend std::istream& operator>>(std::istream& stream, User& user);
+
+        //Writes user to stream
+        friend std::ostream& operator<<(std::ostream& stream, const User& user);
 };
+
+
+std::istream& operator>>(std::istream& stream, User& user);
+std::ostream& operator<<(std::ostream& stream, const User& user);

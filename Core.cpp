@@ -2,6 +2,7 @@
 #include "Constants.hpp"
 
 #include <iostream>
+#include <fstream>
 #include <functional>
 
 typedef std::string str;
@@ -12,9 +13,23 @@ Core::Core()
 Core::Core(const str& usersFile)
     : m_userIndex(USER_INDEX_INVALID), m_usersFile(usersFile)
 {
-    //TODO
-    //Read users from usersFile to m_users
-    //TODO
+    //Open database file
+    std::ifstream dbFile(m_usersFile, std::ios::in);
+    CHECK_FILE_OPENED(dbFile, m_usersFile, return)
+
+    //Read the number of users
+    int usersCount;
+    dbFile >> usersCount;
+    //Read users
+    m_users = std::vector<User>(usersCount, User());
+    for (int i = 0; i < usersCount; i++)
+    {
+        dbFile >> m_users[i];
+    }
+
+    //Close database file
+    dbFile.close();
+    CHECK_FILE_CLOSED(dbFile, m_usersFile, return)
 }
 
 void Core::Run()
@@ -30,6 +45,9 @@ void Core::Run()
         std::getline(std::cin, command);
     }
     while (this->ExecuteCommand(command));
+
+    //Save users to database
+    this->SaveUsers();
 }
 
 bool Core::ExecuteCommand(const str& command)
@@ -43,6 +61,23 @@ bool Core::ExecuteCommand(const str& command)
     else if (command == LOGOUT_COMMAND) this->LogOut();
 
     return true;
+}
+
+void Core::SaveUsers() const
+{
+    //Open database file
+    std::ofstream dbFile(m_usersFile);
+    CHECK_FILE_OPENED(dbFile, m_usersFile, return)
+
+    //Write the number of users
+    dbFile << m_users.size() << FILE_SEPARATOR;
+    //Write users
+    for (int i = 0; i < m_users.size(); i++)
+        dbFile << m_users[i];
+
+    //Close database file
+    dbFile.close();
+    CHECK_FILE_CLOSED(dbFile, m_usersFile, return)
 }
 
 void Core::Help()

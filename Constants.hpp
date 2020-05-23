@@ -4,6 +4,9 @@
 
 typedef std::string str;
 
+const str USERS_DATABASE_FILE =
+"users.db";
+
 const str APP_NAME =
 "Traveller's App";
 
@@ -86,3 +89,18 @@ const str NOT_LOGGED_IN =
 
 const str LOGOUT_SUCCESSFUL =
 "You logged out successfully.\n";
+
+#define CHECK_FILE_OPENED(file, filename, onerror) \
+if (!file.is_open()) { \
+    std::cout << "Error: Cannot open file: " << filename << "\n\n"; \
+    onerror; \
+}
+
+#define CHECK_FILE_CLOSED(file, filename, onerror) \
+if (file.is_open()) { \
+    std::cout << "Error: Cannot close file: " << filename << "\n\n"; \
+    onerror; \
+}
+
+const str FILE_SEPARATOR =
+"\n";

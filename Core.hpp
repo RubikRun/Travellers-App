@@ -34,6 +34,9 @@ class Core
 
     private:
 
+        //Saves all users to the database file
+        void SaveUsers() const;
+
         //Executes a command.
         //Returns true if we should continue executing commands after that
         bool ExecuteCommand(const str& command);
