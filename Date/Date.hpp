@@ -1,3 +1,5 @@
+#pragma once
+
 class Date
 {
     int m_year, m_month, m_day;

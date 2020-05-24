@@ -1,5 +1,5 @@
 #include "Core.hpp"
-#include "Constants.hpp"
+#include "../Constants/Constants.hpp"
 
 #include <iostream>
 #include <fstream>

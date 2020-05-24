@@ -1,4 +1,6 @@
-#include "DateInterval.hpp"
+#pragma once
+
+#include "../Date/DateInterval.hpp"
 
 #include <string>
 #include <vector>

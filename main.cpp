@@ -1,10 +1,10 @@
-#include "Core.hpp"
-#include "User.hpp"
-#include "Constants.hpp"
+#include "Core/Core.hpp"
+#include "User/User.hpp"
+#include "Constants/Constants.hpp"
 
 int main()
 {
-    Core core(USERS_DATABASE_FILE);
+    Core core(DATABASE_DIR + USERS_FILE);
     core.Run();
 
     return 0;

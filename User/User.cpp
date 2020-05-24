@@ -1,6 +1,6 @@
-#include "Core.hpp"
+#include "../Core/Core.hpp"
 #include "User.hpp"
-#include "Constants.hpp"
+#include "../Constants/Constants.hpp"
 
 #include <iostream>
 #include <functional>
