@@ -5,8 +5,6 @@
 #include <fstream>
 #include <functional>
 
-typedef std::string str;
-
 Core::Core()
     : m_userIndex(USER_INDEX_INVALID) {}
 

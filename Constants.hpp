@@ -147,3 +147,8 @@ for (int i = begin; i < end; i++) \
 }
 
 #define IN_INTERVAL(x, a, b) ((x) >= (a) && (x) <= (b))
+
+const int MIN_YEAR = 0;
+const int MIN_MONTH = 1;
+const int MAX_MONTH = 12;
+const int MIN_DAY = 1;
