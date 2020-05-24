@@ -15,30 +15,20 @@ const str& User::GetUsername() const
     return m_username;
 }
 
+const str& User::GetEmail() const
+{
+    return m_email;
+}
+
 bool User::PasswordCheck(const str& password)
 {
     return (m_password == password);
 }
 
-str User::ReadUsername()
-{
-    return Core::ReadValid(User::UsernameIsValid, ENTER_USERNAME, INVALID_USERNAME);
-}
-
-str User::ReadPassword()
-{
-    return Core::ReadValid(User::PasswordIsValid, ENTER_PASSWORD, INVALID_PASSWORD);
-}
-
-str User::ReadEmail()
-{
-    return Core::ReadValid(User::EmailIsValid, ENTER_EMAIL, INVALID_EMAIL);
-}
-
 bool User::UsernameIsValid(const str& username)
 {
     return (
-        (username.length() >= MIN_USERNAME_LEN && username.length() <= MAX_USERNAME_LEN)
+        IN_INTERVAL(username.length(), MIN_USERNAME_LEN, MAX_USERNAME_LEN)
         &&
         (username.find(' ') == std::string::npos)
     );
@@ -48,30 +38,22 @@ bool User::PasswordIsValid(const str& password)
 {
     //Check if password has at least one digit and at lest one letter
     bool digit = false, letter = false;
-    for (int i = 0; i < password.length(); i++)
-    {
-        if (std::isdigit(password[i]))
-        {
-            digit = true;
-        }
-        if (std::isalpha(password[i]))
-        {
-            letter = true;
-        }
-    }
+    ITERATE_AND_FIND(0, password.length(), std::isdigit(password[i]), digit = true,)
+    ITERATE_AND_FIND(0, password.length(), std::isalpha(password[i]), letter = true,)
 
     return (
         digit && letter
         &&
-        (password.length() >= MIN_PASSWORD_LEN && password.length() <= MAX_PASSWORD_LEN)
+        IN_INTERVAL(password.length(), MIN_PASSWORD_LEN, MAX_PASSWORD_LEN)
     );
 }
 
 bool User::EmailIsValid(const str& email)
 {
+    //don't bother reading this mess
     if (email.find(' ') != std::string::npos)
         return false;
-    if (email.length() < MIN_EMAIL_LEN || email.length() > MAX_EMAIL_LEN)
+    if (!IN_INTERVAL(email.length(), MIN_EMAIL_LEN, MAX_EMAIL_LEN))
         return false;
     int at = email.find('@');
     int dot = email.rfind('.');

@@ -22,19 +22,11 @@ class User
         //Returns user's username
         const str& GetUsername() const;
 
+        //Returns user's email
+        const str& GetEmail() const;
+
         //Checks if the given password is the same as the user's password
         bool PasswordCheck(const str& password);
-
-        //Reads a username and makes sure it's valid
-        static str ReadUsername();
-
-        //Reads a password and makes sure it's valid
-        static str ReadPassword();
-
-        //Reads an email and makes sure it's valid
-        static str ReadEmail();
-    
-    private:
 
         //Checks if a username is valid
         static bool UsernameIsValid(const str& username);
@@ -44,6 +36,9 @@ class User
 
         //Checks if an email is valid
         static bool EmailIsValid(const str& email);
+
+    
+    private:
 
         //Reads user from stream
         friend std::istream& operator>>(std::istream& stream, User& user);

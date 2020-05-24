@@ -14,7 +14,7 @@ Core::Core(const str& usersFile)
     : m_userIndex(USER_INDEX_INVALID), m_usersFile(usersFile)
 {
     //Open database file
-    std::ifstream dbFile(m_usersFile, std::ios::in);
+    std::ifstream dbFile(m_usersFile);
     if (!dbFile.is_open())
         return;
 
@@ -23,10 +23,7 @@ Core::Core(const str& usersFile)
     dbFile >> usersCount;
     //Read users
     m_users = std::vector<User>(usersCount, User());
-    for (int i = 0; i < usersCount; i++)
-    {
-        dbFile >> m_users[i];
-    }
+    ITERATE_AND_DO(0, usersCount, dbFile >> m_users[i])
 
     //Close database file
     dbFile.close();
@@ -71,8 +68,7 @@ void Core::SaveUsers() const
     //Write the number of users
     dbFile << m_users.size() << FILE_SEPARATOR;
     //Write users
-    for (int i = 0; i < m_users.size(); i++)
-        dbFile << m_users[i];
+    ITERATE_AND_DO(0, m_users.size(), dbFile << m_users[i])
 
     //Close database file
     dbFile.close();
@@ -89,15 +85,9 @@ void Core::Register()
     VALIDATE(m_userIndex == USER_INDEX_INVALID, CANT_REGISTER_WHILE_LOGGEDIN, return)
 
     //Read user's info
-    str username;
-    while (true)
-    {
-        username = User::ReadUsername();
-        VALIDATE(this->FindUser(username) == USER_INDEX_INVALID, USERNAME_TAKEN, continue)
-        break;
-    }
-    str password = User::ReadPassword();
-    str email = User::ReadEmail();
+    str username = this->ReadUsername();
+    str password = this->ReadPassword();
+    str email = this->ReadEmail();
 
     //Create a user
     User user(username, password, email);
@@ -107,6 +97,8 @@ void Core::Register()
 
     //Save users to database
     this->SaveUsers();
+
+    std::cout << REGISTER_SUCCESSFUL << std::endl;
 }
 
 void Core::LogIn()
@@ -115,7 +107,7 @@ void Core::LogIn()
 
     //Read username until a name of an existing user is entered
     str username = Core::ReadValid(
-        [this](const str& username) { return this->UserExists(username); },
+        [this](const str& username) { return (this->FindUser(username) != USER_INDEX_INVALID); },
         ENTER_USERNAME,
         USER_NOT_FOUND
     );
@@ -146,27 +138,21 @@ void Core::LogOut()
     std::cout << LOGOUT_SUCCESSFUL << std::endl;
 }
 
-bool Core::UserExists(const str& username) const
-{
-    return (this->FindUser(username) != USER_INDEX_INVALID);
-}
-
 int Core::FindUser(const str& username) const
 {
-    for (int i = 0; i < m_users.size(); i++)
-    {
-        if (m_users[i].GetUsername() == username)
-        {
-            return i;
-        }
-    }
-    return USER_INDEX_INVALID;
+    ITERATE_AND_FIND(0, m_users.size(), m_users[i].GetUsername() == username, return i, return USER_INDEX_INVALID)
 }
 
-str Core::ReadValid(std::function<bool(const str&)> IsValid, const str& enterMsg, const str& invalidMsg)
+int Core::FindUserByEmail(const str& email) const
+{
+    ITERATE_AND_FIND(0, m_users.size(), m_users[i].GetEmail() == email, return i, return USER_INDEX_INVALID)
+}
+
+str Core::ReadValid(const std::function<bool(const str&)>& IsValid, const str& enterMsg, const str& invalidMsg,
+    const std::function<bool(const str&)>& IsUnique, const str& duplicateMsg)
 {
     str s;
-    bool valid;
+    bool valid, unique;
 
     do
     {
@@ -175,7 +161,34 @@ str Core::ReadValid(std::function<bool(const str&)> IsValid, const str& enterMsg
 
         valid = IsValid(s);
         VALIDATE(valid, invalidMsg,)
-    } while (!valid);
+        unique = IsUnique(s);
+        VALIDATE(unique, duplicateMsg,)
+    } while (!(valid && unique));
 
     return s;
+}
+
+str Core::ReadUsername()
+{
+    return Core::ReadValid(User::UsernameIsValid, ENTER_USERNAME, INVALID_USERNAME,
+        [this](const str& username) {
+            return (this->FindUser(username) == USER_INDEX_INVALID);
+        },
+        USERNAME_TAKEN
+    );
+}
+
+str Core::ReadPassword()
+{
+    return Core::ReadValid(User::PasswordIsValid, ENTER_PASSWORD, INVALID_PASSWORD);
+}
+
+str Core::ReadEmail()
+{
+    return Core::ReadValid(User::EmailIsValid, ENTER_EMAIL, INVALID_EMAIL,
+        [this](const str& email) {
+            return (this->FindUserByEmail(email) == USER_INDEX_INVALID);
+        },
+        EMAIL_TAKEN
+    );
 }

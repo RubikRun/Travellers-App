@@ -29,11 +29,13 @@ class Core
         //Run the core. Start reading and executing commands
         void Run();
 
-        //Reads a string until a valid string is entered
-        static str ReadValid(std::function<bool(const str&)> IsValid, const str& enterMsg, const str& invalidMsg);
-        
 
     private:
+
+        //Reads a string until a valid and unique string is entered
+        static str ReadValid(const std::function<bool(const str&)>& IsValid, const str& enterMsg, const str& invalidMsg,
+            const std::function<bool(const str&)>& IsUnique = [](const str&){ return true; },
+            const str& duplicateMsg = "");
 
         //Saves all users to the database file
         void SaveUsers() const;
@@ -54,9 +56,18 @@ class Core
         //Logs out the currently logged in user
         void LogOut();
 
-        //Checks if a user with this username exists
-        bool UserExists(const str& username) const;
-
         //Finds the user with this username, returns its index
         int FindUser(const str& username) const;
+
+        //Finds the user with this email, returns its index
+        int FindUserByEmail(const str& email) const;
+
+        //Reads a username and makes sure it's valid and unique
+        str ReadUsername();
+
+        //Reads a password and makes sure it's valid
+        str ReadPassword();
+
+        //Reads an email and makes sure it's valid and unique
+        str ReadEmail();
 };

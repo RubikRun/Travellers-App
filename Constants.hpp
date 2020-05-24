@@ -85,6 +85,9 @@ const int USER_INDEX_INVALID = -1;
 const str PASSWORD_WRONG =
 "Wrong password.\n";
 
+const str REGISTER_SUCCESSFUL =
+"You registered successfully.\n";
+
 const str LOGIN_SUCCESSFUL =
 "You logged in successfully.\n";
 
@@ -123,3 +126,24 @@ const str ALREADY_LOGGEDIN =
 
 const str USERNAME_TAKEN =
 "Error: A user with this username already exists.\n";
+
+const str EMAIL_TAKEN =
+"Error: A user with this email already exists.\n";
+
+#define ITERATE_AND_FIND(begin, end, condition, onfind, ondidntfind) \
+for (int i = begin; i < end; i++) \
+{ \
+    if (condition) \
+    { \
+        onfind; \
+    } \
+} \
+ondidntfind;
+
+#define ITERATE_AND_DO(begin, end, do) \
+for (int i = begin; i < end; i++) \
+{ \
+    do; \
+}
+
+#define IN_INTERVAL(x, a, b) ((x) >= (a) && (x) <= (b))
