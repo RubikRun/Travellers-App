@@ -46,10 +46,10 @@ int Date::GetDaysInMonth(int month, int year)
     return 31;
 }
 
-#define COMPARE_DATES_OPERATOR(operatorSign) \
-bool operator operatorSign(const Date& date1, const Date& date2) \
+#define COMPARE_DATES_OPERATOR(sign) \
+bool operator sign(const Date& date1, const Date& date2) \
 { \
-    return (date1.ParseToInt() operatorSign date2.ParseToInt()); \
+    return (date1.ParseToInt() sign date2.ParseToInt()); \
 }
 
 COMPARE_DATES_OPERATOR(==)
