@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Trip/Trip.hpp"
+
 #include <string>
 
 typedef std::string str;
@@ -10,6 +12,9 @@ class User
     str m_username;
     str m_password;
     str m_email;
+
+    //User's trips
+    std::vector<Trip> trips;
 
     public:
 

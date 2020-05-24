@@ -4,7 +4,13 @@
 
 int main()
 {
-    Core core(DATABASE_DIR + USERS_FILE);
+    Core core(USERS_DB);
+
+    if (Core::FileExists(USERS_DB))
+    {
+        core.LoadCore(USERS_DB);
+    }
+
     core.Run();
 
     return 0;

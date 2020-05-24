@@ -4,11 +4,17 @@
 
 typedef std::string str;
 
-const str USERS_FILE =
-"users.db";
-
 const str DATABASE_DIR =
 "Database/";
+
+const str DATABASE_EXTENTION =
+".db";
+
+const str USERS_FILE =
+"users";
+
+const str USERS_DB =
+DATABASE_DIR + USERS_FILE + DATABASE_EXTENTION;
 
 const str APP_NAME =
 "Traveller's App";

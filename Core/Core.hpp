@@ -12,7 +12,7 @@ class Core
 {
     //All users registered in the app
     std::vector<User> m_users;
-    //The name of the file where all registered users are stored
+    //The name of the file where all registered users will be stored
     str m_usersFile;
 
     //The user that is currently logged in (his index)
@@ -21,10 +21,10 @@ class Core
     public:
 
         //Creates an empty core for the app
-        Core();
+        Core(const str& usersFile);
 
         //Loads the core from a database file with users
-        Core(const str& usersFile);
+        void LoadCore(const str& usersFile);
 
         //Run the core. Start reading and executing commands
         void Run();
@@ -70,4 +70,12 @@ class Core
 
         //Reads an email and makes sure it's valid and unique
         str ReadEmail();
+
+        //Creates a file and puts the given content in it
+        static void CreateFile(const str& filename, const str& content);
+
+    public:
+
+        //Checks if a file with this name exists
+        static bool FileExists(const str& filename);
 };

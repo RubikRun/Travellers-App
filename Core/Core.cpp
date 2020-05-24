@@ -5,16 +5,14 @@
 #include <fstream>
 #include <functional>
 
-Core::Core()
-    : m_userIndex(USER_INDEX_INVALID) {}
-
 Core::Core(const str& usersFile)
-    : m_userIndex(USER_INDEX_INVALID), m_usersFile(usersFile)
+    : m_usersFile(usersFile), m_userIndex(USER_INDEX_INVALID) {}
+
+void Core::LoadCore(const str& usersFile)
 {
     //Open database file
-    std::ifstream dbFile(m_usersFile);
-    if (!dbFile.is_open())
-        return;
+    std::ifstream dbFile(usersFile);
+    CHECK_FILE_OPENED(dbFile, usersFile, return)
 
     //Read the number of users
     int usersCount;
@@ -25,7 +23,7 @@ Core::Core(const str& usersFile)
 
     //Close database file
     dbFile.close();
-    CHECK_FILE_CLOSED(dbFile, m_usersFile, return)
+    CHECK_FILE_CLOSED(dbFile, usersFile, return)
 }
 
 void Core::Run()
@@ -92,6 +90,8 @@ void Core::Register()
 
     //Add user to core's users
     m_users.push_back(user);
+    //Create user's own database file (initially user has no trips so the file contains 0)
+    Core::CreateFile(DATABASE_DIR + username + DATABASE_EXTENTION, "0");
 
     //Save users to database
     this->SaveUsers();
@@ -189,4 +189,21 @@ str Core::ReadEmail()
         },
         EMAIL_TAKEN
     );
+}
+
+void Core::CreateFile(const str& filename, const str& content)
+{
+    std::ofstream file(filename);
+    CHECK_FILE_OPENED(file, filename, return)
+
+    file << content;
+
+    file.close();
+    CHECK_FILE_CLOSED(file, filename,)
+}
+
+bool Core::FileExists(const str& filename)
+{
+    std::ifstream file(filename);
+    return (file.good());
 }
