@@ -98,6 +98,9 @@ void Core::Register()
 
     //Add user to core's users
     m_users.push_back(user);
+
+    //Save users to database
+    this->SaveUsers();
 }
 
 void Core::LogIn()
@@ -169,9 +172,4 @@ str Core::ReadValid(std::function<bool(const str&)> IsValid, const str& enterMsg
     } while (!valid);
 
     return s;
-}
-
-Core::~Core()
-{
-    this->SaveUsers();
 }

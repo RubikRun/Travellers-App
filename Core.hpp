@@ -31,9 +31,7 @@ class Core
 
         //Reads a string until a valid string is entered
         static str ReadValid(std::function<bool(const str&)> IsValid, const str& enterMsg, const str& invalidMsg);
-
-        //Saves all users
-        ~Core();
+        
 
     private:
 
