@@ -89,7 +89,13 @@ void Core::Register()
     VALIDATE(m_userIndex == USER_INDEX_INVALID, CANT_REGISTER_WHILE_LOGGEDIN, return)
 
     //Read user's info
-    str username = User::ReadUsername();
+    str username;
+    while (true)
+    {
+        username = User::ReadUsername();
+        VALIDATE(this->FindUser(username) == USER_INDEX_INVALID, USERNAME_TAKEN, continue)
+        break;
+    }
     str password = User::ReadPassword();
     str email = User::ReadEmail();
 

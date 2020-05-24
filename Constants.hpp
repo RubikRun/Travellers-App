@@ -120,3 +120,6 @@ const str CANT_REGISTER_WHILE_LOGGEDIN =
 
 const str ALREADY_LOGGEDIN = 
 "You are already logged in.\n";
+
+const str USERNAME_TAKEN =
+"Error: A user with this username already exists.\n";
