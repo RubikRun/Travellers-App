@@ -14,7 +14,7 @@ class User
     str m_email;
 
     //User's trips
-    std::vector<Trip> trips;
+    std::vector<Trip> m_trips;
 
     public:
 
@@ -23,6 +23,12 @@ class User
 
         //Creates a user with the given info
         User(const str& username, const str& password, const str& email);
+
+        //Loads user's trips from their database
+        void LoadTrips(const str& userFile);
+
+        //Saves user's trips to their database
+        void SaveTrips(const str& userFile) const;
 
         //Returns user's username
         const str& GetUsername() const;

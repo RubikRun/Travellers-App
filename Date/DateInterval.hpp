@@ -2,6 +2,8 @@
 
 #include "Date.hpp"
 
+#include <iostream>
+
 class DateInterval
 {
     Date m_first, m_last;
@@ -16,4 +18,10 @@ class DateInterval
 
         //Checks if the date interval is valid
         bool IsValid();
+
+        //Reads a date interval from a stream
+        friend std::istream& operator>>(std::istream& stream, DateInterval& dateInterval);
+
+        //Writes a date interval to a stream
+        friend std::ostream& operator<<(std::ostream& stream, const DateInterval& dateInterval);
 };

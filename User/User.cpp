@@ -1,7 +1,9 @@
 #include "../Core/Core.hpp"
 #include "User.hpp"
+#include "../Parser/Parser.hpp"
 #include "../Constants/Constants.hpp"
 
+#include <fstream>
 #include <iostream>
 #include <functional>
 
@@ -9,6 +11,42 @@ User::User(){}
 
 User::User(const str& username, const str& password, const str& email)
     : m_username(username), m_password(password), m_email(email) {}
+
+void User::LoadTrips(const str& filename)
+{
+    //Open file
+    std::ifstream file(filename);
+    CHECK_FILE_OPENED(file, filename, return)
+ 
+    //Read the number of trips
+    int tripsCount;
+    READ_INT(file, tripsCount);
+    //Create trips
+    m_trips.clear();
+    m_trips = std::vector<Trip>(tripsCount);
+    //Read trips
+    ITERATE_AND_DO(0, tripsCount, file >> m_trips[i])
+
+    //Close file
+    file.close();
+    CHECK_FILE_CLOSED(file, filename,)
+}
+
+void User::SaveTrips(const str& filename) const
+{
+    //Open file
+    std::ofstream file(filename);
+    CHECK_FILE_OPENED(file, filename, return)
+
+    //Write the number of trips
+    file << m_trips.size();
+    //Write trips
+    ITERATE_AND_DO(0, m_trips.size(), file << SEPARATOR << m_trips[i])
+
+    //Close file
+    file.close();
+    CHECK_FILE_CLOSED(file, filename,)
+}
 
 const str& User::GetUsername() const
 {
@@ -71,10 +109,9 @@ bool User::EmailIsValid(const str& email)
 //Reads user from stream
 std::istream& operator>>(std::istream& stream, User& user)
 {
-    stream >> 
-    user.m_username >>
-    user.m_password >>
-    user.m_email;
+    std::getline(stream, user.m_username);
+    std::getline(stream, user.m_password);
+    std::getline(stream, user.m_email);
 
     return stream;
 }
@@ -83,9 +120,9 @@ std::istream& operator>>(std::istream& stream, User& user)
 std::ostream& operator<<(std::ostream& stream, const User& user)
 {
     stream << 
-    user.m_username << FILE_SEPARATOR <<
-    user.m_password << FILE_SEPARATOR <<
-    user.m_email << FILE_SEPARATOR;
+    user.m_username << SEPARATOR <<
+    user.m_password << SEPARATOR <<
+    user.m_email;
 
     return stream;
 }

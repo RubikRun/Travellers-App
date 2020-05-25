@@ -124,7 +124,7 @@ if (file.is_open()) { \
     onerror; \
 }
 
-const str FILE_SEPARATOR =
+const str SEPARATOR =
 "\n";
 
 const str CANT_REGISTER_WHILE_LOGGEDIN =
@@ -161,3 +161,5 @@ const int MIN_YEAR = 0;
 const int MIN_MONTH = 1;
 const int MAX_MONTH = 12;
 const int MIN_DAY = 1;
+
+#define READ_INT(stream, var) { std::string line; std::getline(stream, line); var = Parser::ToInt(line); }

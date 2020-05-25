@@ -1,4 +1,5 @@
 #include "Date.hpp"
+#include "../Parser/Parser.hpp"
 #include "../Constants/Constants.hpp"
 
 Date::Date()
@@ -57,3 +58,22 @@ COMPARE_DATES_OPERATOR(<)
 COMPARE_DATES_OPERATOR(>)
 COMPARE_DATES_OPERATOR(<=)
 COMPARE_DATES_OPERATOR(>=)
+
+std::istream& operator>>(std::istream& stream, Date& date)
+{
+    READ_INT(stream, date.m_year)
+    READ_INT(stream, date.m_month)
+    READ_INT(stream, date.m_day)
+
+    return stream;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Date& date)
+{
+    stream <<
+    date.m_year << SEPARATOR <<
+    date.m_month << SEPARATOR <<
+    date.m_day;
+
+    return stream;
+}

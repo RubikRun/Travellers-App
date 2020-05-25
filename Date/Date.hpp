@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 class Date
 {
     int m_year, m_month, m_day;
@@ -25,6 +27,12 @@ class Date
         friend bool operator>(const Date& date1, const Date& date2);
         friend bool operator<=(const Date& date1, const Date& date2);
         friend bool operator>=(const Date& date1, const Date& date2);
+
+        //Reads a date from a stream
+        friend std::istream& operator>>(std::istream& stream, Date& date);
+
+        //Writes a date to a stream
+        friend std::ostream& operator<<(std::ostream& stream, const Date& date);
 
     private:
 

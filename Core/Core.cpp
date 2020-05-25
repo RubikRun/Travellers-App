@@ -1,4 +1,5 @@
 #include "Core.hpp"
+#include "../Parser/Parser.hpp"
 #include "../Constants/Constants.hpp"
 
 #include <iostream>
@@ -16,9 +17,10 @@ void Core::LoadCore(const str& usersFile)
 
     //Read the number of users
     int usersCount;
-    dbFile >> usersCount;
+    READ_INT(dbFile, usersCount)
     //Read users
-    m_users = std::vector<User>(usersCount, User());
+    m_users.clear();
+    m_users = std::vector<User>(usersCount);
     ITERATE_AND_DO(0, usersCount, dbFile >> m_users[i])
 
     //Close database file
@@ -62,9 +64,9 @@ void Core::SaveUsers() const
     CHECK_FILE_OPENED(dbFile, m_usersFile, return)
 
     //Write the number of users
-    dbFile << m_users.size() << FILE_SEPARATOR;
+    dbFile << m_users.size();
     //Write users
-    ITERATE_AND_DO(0, m_users.size(), dbFile << m_users[i])
+    ITERATE_AND_DO(0, m_users.size(), dbFile << SEPARATOR << m_users[i])
 
     //Close database file
     dbFile.close();
