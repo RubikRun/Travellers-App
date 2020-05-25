@@ -1,5 +1,4 @@
 #include "Core.hpp"
-#include "../Parser/Parser.hpp"
 #include "../Constants/Constants.hpp"
 
 #include <iostream>

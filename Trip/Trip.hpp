@@ -1,17 +1,16 @@
 #pragma once
 
-#include "../Date/DateInterval.hpp"
+#include "../Date/Date.hpp"
 
 #include <iostream>
 #include <string>
 #include <vector>
-
 typedef std::string str;
 
 class Trip
 {
     str m_dest;
-    DateInterval m_period;
+    Date m_begin, m_end;
     float m_rating;
     str m_comment;
     std::vector<str> m_photos;
@@ -22,7 +21,7 @@ class Trip
         Trip();
 
         //Creates a trip with the given data
-        Trip(const str& dest, const DateInterval& period, float rating,
+        Trip(const str& dest, const Date& begin, const Date& end, float rating,
             const str& comment, const std::vector<str>& photos);
 
         //Reads the trip from a stream

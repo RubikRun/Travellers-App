@@ -25,10 +25,10 @@ class User
         User(const str& username, const str& password, const str& email);
 
         //Loads user's trips from their database
-        void LoadTrips(const str& userFile);
+        void LoadTrips(const str& userDb);
 
         //Saves user's trips to their database
-        void SaveTrips(const str& userFile) const;
+        void SaveTrips(const str& userDb) const;
 
         //Returns user's username
         const str& GetUsername() const;

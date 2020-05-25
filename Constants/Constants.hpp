@@ -162,4 +162,8 @@ const int MIN_MONTH = 1;
 const int MAX_MONTH = 12;
 const int MIN_DAY = 1;
 
-#define READ_INT(stream, var) { std::string line; std::getline(stream, line); var = Parser::ToInt(line); }
+const char DATE_SEPARATOR = '.';
+
+const str DATE_FORMAT = "dd" + std::string(1, DATE_SEPARATOR) + "mm" + std::string(1, DATE_SEPARATOR) + "yyyy";
+
+#define READ_INT(stream, var) { std::string line; std::getline(stream, line); var = std::stoi(line); }
