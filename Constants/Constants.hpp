@@ -10,11 +10,13 @@ namespace nName
 
 namespace nDatabase
 {
-    const str DIR = "Database/"; //directory
+    const str DIR = "Databases/"; //directory
     const str EXT = ".db"; //extention
 
     const str USERS = "users";
     const str DESTS = "destinations";
+
+    const char DELIMETER = '\n';
 }
 
 namespace nUser

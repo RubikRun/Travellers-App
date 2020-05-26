@@ -1,5 +1,5 @@
 #include "Core.hpp"
-#include "../UserIO/UserInput.hpp"
+#include "../UserIO/UserIO.hpp"
 #include "../Constants/Constants.hpp"
 #include "../Macros/Macros.hpp"
 
