@@ -16,4 +16,9 @@ class User
     std::vector<int> m_frsInd;
     //User's friend requests (senders' indecies)
     std::vector<int> m_frReqsInd;
+
+    public:
+
+        //Returns user's username
+        const str& GetUsername() const;
 };

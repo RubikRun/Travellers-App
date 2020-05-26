@@ -1,3 +1,5 @@
+#pragma once
+
 class Date
 {
     //A day, a month and an year
