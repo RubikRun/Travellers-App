@@ -1,6 +1,7 @@
 #include "Core.hpp"
 #include "../UserInput/UserInput.hpp"
 #include "../Constants/Constants.hpp"
+#include "../Macros/Macros.hpp"
 
 #include <iostream>
 
@@ -9,8 +10,8 @@ Core::Core()
 
 void Core::Load(const str& usersDb, const str& destsDb)
 {
-    this->LoadUsers(usersDb);
-    this->LoadDests(destsDb);
+    CHECK_FILE_EXISTS(usersDb, this->LoadUsers(usersDb),)
+    CHECK_FILE_EXISTS(destsDb, this->LoadDests(destsDb),)
 }
 
 void Core::Run()
