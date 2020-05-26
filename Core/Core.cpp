@@ -1,5 +1,5 @@
 #include "Core.hpp"
-#include "../UserInput/UserInput.hpp"
+#include "../UserIO/UserInput.hpp"
 #include "../Constants/Constants.hpp"
 #include "../Macros/Macros.hpp"
 
@@ -25,7 +25,7 @@ void Core::Run()
         const str* username = (m_userInd == nUser::NULL_IND) ?
             nullptr : &m_users[m_userInd].GetUsername();
 
-        UserInput::ReadCommand(command, username);
+        nUserInput::ReadCommand(command, username);
         this->ExecuteCommand(command);
     }
 }

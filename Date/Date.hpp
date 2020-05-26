@@ -2,6 +2,6 @@
 
 class Date
 {
-    //A day, a month and an year
-    int m_day, m_month, m_year;
+    //An year, a month and a day
+    int m_year, m_month, m_day;
 };

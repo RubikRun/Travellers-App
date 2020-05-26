@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../UserOutput/UserOutput.hpp"
+#include "../UserIO/UserOutput.hpp"
 
 #include <iostream>
 #include <fstream>
