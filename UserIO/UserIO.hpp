@@ -4,14 +4,11 @@
 #include <string>
 typedef std::string str;
 
-namespace nUserInput
+namespace nUserIO
 {
     //Reads a command from the user
     void ReadCommand(str& command, const str* username);
-}
 
-namespace nUserOutput
-{
     //Logs a message
     void Log(const str& msg);
 

@@ -8,24 +8,6 @@
 #include <vector>
 typedef std::string str;
 
-namespace nDatabaseIO
-{
-    //Reads a string from a database
-    void ReadStr(str&, std::istream& db);
-    //Writes a string to a database
-    void WriteStr(const str&, std::ostream& db);
-
-    //Reads an int from a database
-    int ReadInt(std::istream& db);
-    //Writes an int to a database
-    void WriteInt(int, std::ostream& db);
-
-    //Reads an object from a database
-    void Read(Serializable& obj, std::istream& db);
-    //Writes an object to a database
-    void Write(const Serializable& obj, std::ostream& db);
-}
-
 #define DB_READ_VEC(db, vec, type) \
 { \
     int objCount = nDatabaseIO::ReadInt(db); \
@@ -51,20 +33,38 @@ namespace nDatabaseIO
 #define OPEN_OFILE(file, filename, onerror) \
 std::ofstream file(filename); \
 if (!file.is_open()) { \
-    nUserOutput::nError::Log("Cannot open file: " + filename); \
+    nUserIO::nError::Log("Cannot open file: " + filename); \
     onerror; \
 }
 
 #define OPEN_IFILE(file, filename, onerror) \
 std::ifstream file(filename); \
 if (!file.is_open()) { \
-    nUserOutput::nError::Log("Cannot open file: " + filename); \
+    nUserIO::nError::Log("Cannot open file: " + filename); \
     onerror; \
 }
 
 #define CLOSE_FILE(file, filename, onerror) \
 file.close(); \
 if (!file.good()) { \
-    nUserOutput::nError::Log("Cannot close file: " + filename); \
+    nUserIO::nError::Log("Cannot close file: " + filename); \
     onerror; \
+}
+
+namespace nDatabaseIO
+{
+    //Reads a string from a database
+    void ReadStr(str&, std::istream& db);
+    //Writes a string to a database
+    void WriteStr(const str&, std::ostream& db);
+
+    //Reads an int from a database
+    int ReadInt(std::istream& db);
+    //Writes an int to a database
+    void WriteInt(int, std::ostream& db);
+
+    //Reads an object from a database
+    void Read(Serializable& obj, std::istream& db);
+    //Writes an object to a database
+    void Write(const Serializable& obj, std::ostream& db);
 }

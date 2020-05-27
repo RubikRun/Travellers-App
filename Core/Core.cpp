@@ -23,7 +23,7 @@ void Core::Run()
         const str* username = (m_userInd == nUser::NULL_IND) ?
             nullptr : &m_users[m_userInd].GetUsername();
 
-        nUserInput::ReadCommand(command, username);
+        nUserIO::ReadCommand(command, username);
         this->ExecuteCommand(command);
     }
 }
@@ -77,6 +77,72 @@ void Core::SaveDests(const str& dbName)
 }
 
 void Core::ExecuteCommand(const str& command)
+{
+    if (command == nCommand::EXIT) this->Exit();
+    else if (command == nCommand::HELP) this->Help();
+    else if (command == nCommand::REGISTER) this->Register();
+    else if (command == nCommand::LOGIN) this->LogIn();
+    else if (command == nCommand::LOGOUT) this->LogOut();
+    else if (command == nCommand::ADDTRIP) this->AddTrip();
+    else if (command == nCommand::LISTDESTS) this->ListDests();
+    else if (command == nCommand::CHECKOUTDEST) this->CheckoutDest();
+    else if (command == nCommand::ADDFRIEND) this->AddFriend();
+    else if (command == nCommand::REMOVEFRIEND) this->RemoveFriend();
+    else if (command == nCommand::CHECKOUTFRIEND) this->CheckoutFriend();
+    else nUserIO::Log(nMsg::COMMAND_INVALID);
+}
+
+void Core::Exit()
+{
+    //TODO
+}
+
+void Core::Help() const
+{
+    //TODO
+}
+
+void Core::Register()
+{
+    //TODO
+}
+
+void Core::LogIn()
+{
+    //TODO
+}
+
+void Core::LogOut()
+{
+    //TODO
+}
+
+void Core::AddTrip()
+{
+    //TODO
+}
+
+void Core::ListDests() const
+{
+    //TODO
+}
+
+void Core::CheckoutDest()
+{
+    //TODO
+}
+
+void Core::AddFriend()
+{
+    //TODO
+}
+
+void Core::RemoveFriend()
+{
+    //TODO
+}
+
+void Core::CheckoutFriend() const
 {
     //TODO
 }

@@ -8,7 +8,7 @@ std::ostream& operator<<(std::ostream& stream, const Printable& obj)
     stream << obj.ToStr();
 }
 
-void nUserInput::ReadCommand(str& command, const str* username)
+void nUserIO::ReadCommand(str& command, const str* username)
 {
     str displayName = (username == nullptr) ? nUser::nUsername::NON_REGISTERED : *username;
     std::cout << displayName << ": ";
@@ -16,12 +16,12 @@ void nUserInput::ReadCommand(str& command, const str* username)
     std::getline(std::cin, command);
 }
 
-void nUserOutput::Log(const str& msg)
+void nUserIO::Log(const str& msg)
 {
     std::cout << msg << std::endl;
 }
 
-void nUserOutput::nError::Log(const str& msg)
+void nUserIO::nError::Log(const str& msg)
 {
     std::cout << "Error: " << msg << std::endl;
 }
