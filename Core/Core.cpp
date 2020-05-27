@@ -452,7 +452,7 @@ void ReadTripPhotos(std::vector<str>& photos)
     photos = std::vector<str>(photosCount);
     for (int i = 0; i < photosCount; i++)
     {
-        str enterMsg = "Enter photo #" + std::to_string(i + 1) + ": ";
+        str enterMsg = nMsg::nEnter::PHOTO_NUMBER + std::to_string(i + 1) + ": ";
         nUserIO::ReadValid(photos[i], enterMsg, Trip::IsValidPhoto, nMsg::nInvalid::PHOTO);
     }
 }

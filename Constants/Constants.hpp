@@ -157,6 +157,9 @@ namespace nMsg
         const str PHOTOS_COUNT =
         "Enter the number of photos: ";
 
+        const str PHOTO_NUMBER =
+        "Enter photo #";
+
         const str ADDFRIEND =
         "Enter username of the user you want to add as a friend: ";
 
