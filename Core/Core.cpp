@@ -280,14 +280,14 @@ void ReadTripBeginEnd(Date& begin, Date& end)
     nUserIO::ReadValid(beginStr,
         [](const str& s) { return Date::StrIsDate(s); },
         nMsg::nEnter::BEGIN, nMsg::nInvalid::DATE);
-    Date begin = Date::FromStr(beginStr);
+    begin = Date::FromStr(beginStr);
 
     nUserIO::ReadValid(endStr,
         [begin](const str& s) {
             return (Date::StrIsDate(s) && begin <= Date::FromStr(s));
         },
         nMsg::nEnter::END, nMsg::nInvalid::END_DATE);
-    Date end = Date::FromStr(endStr);
+    end = Date::FromStr(endStr);
 }
 
 void ReadTripGrade(int& grade)
@@ -301,7 +301,7 @@ void ReadTripGrade(int& grade)
             return (grade >= nGrade::MIN && grade <= nGrade::MAX);
         },
         nMsg::nEnter::GRADE, nMsg::nInvalid::GRADE);
-    int grade = std::stoi(gradeStr);
+    grade = std::stoi(gradeStr);
 }
 
 void ReadTripComment(str& comment)
