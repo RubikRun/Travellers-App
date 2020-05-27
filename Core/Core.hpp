@@ -73,7 +73,7 @@ class Core
         //Lists the grades of a destination
         void CheckoutDest();
 
-        //Sends/confirms a friend request
+        //Sends/accepts a friend request
         void AddFriend();
 
         //Removes a friend/Declines a friend request
@@ -87,6 +87,9 @@ class Core
 
         //Finds the user with the given email (returns their index)
         int FindUserByEmail(const str& email) const;
+
+        //Finds the destination with the given name (returns its index)
+        int FindDest(const str& destname) const;
 
         //Finds/Creates the destination with the given name,
         //updates its grades, and returns its index

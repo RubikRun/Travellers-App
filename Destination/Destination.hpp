@@ -17,6 +17,12 @@ class Destination : public Serializable, public Printable
 
     public:
 
+        //Returns the grades of the destination
+        const std::vector<GradeEntry>& GetGrades() const;
+
+        //Calculates and returns the average grade of the destination
+        float CalcAvgGrade() const;
+
         str Serialize() const;
 
         void Deserialize(const str&);

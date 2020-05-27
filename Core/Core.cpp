@@ -112,13 +112,21 @@ void Core::Register()
 
     str username, password, email;
 
-    //Read valid username, password and email
-    nUserIO::ReadValid(username, User::UsernameIsValid,
-        nMsg::nEnter::USERNAME, nMsg::nInvalid::USERNAME);
-    nUserIO::ReadValid(password, User::PasswordIsValid,
-        nMsg::nEnter::PASSWORD, nMsg::nInvalid::PASSWORD);
-    nUserIO::ReadValid(email, User::EmailIsValid,
-        nMsg::nEnter::EMAIL, nMsg::nInvalid::EMAIL);
+    //Read valid and unique username
+    nUserIO::ReadValid(username, nMsg::nEnter::USERNAME,
+        User::UsernameIsValid, nMsg::nInvalid::USERNAME,
+        [this](const str& s) { return (this->FindUser(s) != nUser::NULL_IND); },
+        nMsg::nNotUnique::USERNAME);
+
+    //Read valid password
+    nUserIO::ReadValid(password, nMsg::nEnter::PASSWORD,
+        User::PasswordIsValid, nMsg::nInvalid::PASSWORD);
+
+    //Read valid and unique email
+    nUserIO::ReadValid(email, nMsg::nEnter::EMAIL,
+        User::EmailIsValid, nMsg::nInvalid::EMAIL,
+        [this](const str& s) { return (this->FindUserByEmail(s) != nUser::NULL_IND); },
+        nMsg::nNotUnique::EMAIL);
 
     //Add a new user with that info
     m_users.emplace_back(username, password, email);
@@ -137,37 +145,34 @@ void Core::LogIn()
     str username, password;
 
     //Read username of an existing user
-    nUserIO::ReadValid(username,
-        [this](const str& s) {
-            return (this->FindUser(s) != nUser::NULL_IND);
-        },
-        nMsg::nEnter::USERNAME,
-        nMsg::nNotExist::USERNAME
-    );
+    nUserIO::ReadValid(username, nMsg::nEnter::USERNAME,
+        [this](const str& s) { return (this->FindUser(s) != nUser::NULL_IND); },
+        nMsg::nNotExist::USERNAME);
+
     //Find user
     int userInd = this->FindUser(username);
     User* user = &m_users[userInd];
 
     //Read the correct password
-    nUserIO::ReadValid(password,
-        [user](const str& s) {
-            return user->PasswordsMatch(s);
-        },
-        nMsg::nEnter::PASSWORD,
-        nMsg::nNotAllow::PASSWORD
-    );
+    nUserIO::ReadValid(password, nMsg::nEnter::PASSWORD,
+        [user](const str& s) { return user->PasswordsMatch(s); },
+        nMsg::nNotAllow::PASSWORD);
 
     //Log in the user
     m_userInd = userInd;
 
     nUserIO::Log(nMsg::nSuccess::LOGIN);
+    nUserIO::NextLine();
+
+    //Show user's notifications
+    nUserIO::Log(m_users[m_userInd].GetNotificationsStr());
 }
 
 void Core::LogOut()
 {
     if (m_userInd == nUser::NULL_IND)
     {
-        nUserIO::Log(nMsg::nNotAllow::LOGOUT_NONLOGGED);
+        nUserIO::nError::Log(nMsg::nNotAllow::LOGOUT_NONLOGGED);
         return;
     }
 
@@ -185,7 +190,7 @@ void Core::AddTrip()
 {
     if (m_userInd == nUser::NULL_IND)
     {
-        nUserIO::Log(nMsg::nNotAllow::ADDTRIP_NONLOGGED);
+        nUserIO::nError::Log(nMsg::nNotAllow::ADDTRIP_NONLOGGED);
         return;
     }
 
@@ -209,27 +214,148 @@ void Core::AddTrip()
 
 void Core::ListDests() const
 {
-    //TODO
+    if (m_userInd == nUser::NULL_IND)
+    {
+        nUserIO::nError::Log(nMsg::nNotAllow::LISTDESTS_NONLOGGED);
+        return;
+    }
+
+    nUserIO::Log(nMsg::nList::DESTS);
+
+    //List all destinations
+    PRINT_VEC(m_dests)
+
+    nUserIO::NextLine();
 }
 
 void Core::CheckoutDest()
 {
-    //TODO
+    if (m_userInd == nUser::NULL_IND)
+    {
+        nUserIO::nError::Log(nMsg::nNotAllow::CHECKOUTDEST_NONLOGGED);
+        return;
+    }
+
+    str destName;
+    //Read the name of an existing destination
+    nUserIO::ReadValid(destName, nMsg::nEnter::DEST,
+        [this](const str& s) { return (this->FindDest(s) != nDest::NULL_IND); },
+        nMsg::nNotExist::DESTNAME);
+
+    //Find destination
+    int destInd = this->FindDest(destName);
+
+    //Show average grade of the destination
+    float avgGrade = m_dests[destInd].CalcAvgGrade();
+    nUserIO::Log(nMsg::nList::AVG_DEST_GRADE + std::to_string(avgGrade));
+
+    //Show all grades of the destination
+    nUserIO::Log(nMsg::nList::DEST_GRADES);
+    const std::vector<GradeEntry>& grades = m_dests[destInd].GetGrades();
+    PRINT_VEC(grades)
+
+    nUserIO::NextLine();
 }
 
 void Core::AddFriend()
 {
-    //TODO
+    if (m_userInd == nUser::NULL_IND)
+    {
+        nUserIO::nError::Log(nMsg::nNotAllow::ADDFRIEND_NONLOGGED);
+        return;
+    }
+
+    str username;
+    //Read username of an existing user
+    nUserIO::ReadValid(username, nMsg::nEnter::ADDFRIEND,
+        [this](const str& s) { return (this->FindUser(s) != nUser::NULL_IND); },
+        nMsg::nNotExist::USERNAME);
+    
+    //Find user
+    int userInd = this->FindUser(username);
+
+    if (m_users[m_userInd].IsFriend(userInd))
+    {
+        nUserIO::Log(nMsg::nNotAllow::ADDFRIEND_FRIEND);
+    }
+    else if (m_users[m_userInd].HasFriendRequest(userInd))
+    {
+        m_users[m_userInd].AcceptFriendRequest(userInd);
+        nUserIO::Log(nMsg::nSuccess::ACCEPT_FRREQ);
+    }
+    else
+    {
+        m_users[userInd].ReceiveFriendRequest(m_userInd);
+        nUserIO::Log(nMsg::nSuccess::SENT_FRREQ);
+    }
 }
 
 void Core::RemoveFriend()
 {
-    //TODO
+    if (m_userInd == nUser::NULL_IND)
+    {
+        nUserIO::nError::Log(nMsg::nNotAllow::RMFRIEND_NONLOGGED);
+        return;
+    }
+
+    str username;
+    //Read username of an existing user
+    nUserIO::ReadValid(username, nMsg::nEnter::RMFRIEND,
+        [this](const str& s) { return (this->FindUser(s) != nUser::NULL_IND); },
+        nMsg::nNotExist::USERNAME);
+
+    //Find user
+    int userInd = this->FindUser(username);
+
+    if (m_users[m_userInd].IsFriend(userInd))
+    {
+        m_users[m_userInd].RemoveFriend(userInd);
+        nUserIO::Log(nMsg::nSuccess::REMOVE_FRIEND);
+    }
+    else if (m_users[m_userInd].HasFriendRequest(userInd))
+    {
+        m_users[m_userInd].AcceptFriendRequest(userInd);
+        nUserIO::Log(nMsg::nSuccess::ACCEPT_FRREQ);
+    }
+    else
+    {
+        nUserIO::Log(nMsg::nNotAllow::RM_NONFRIEND);
+    }
+
+    nUserIO::NextLine();
 }
 
 void Core::CheckoutFriend() const
 {
-    //TODO
+    if (m_userInd == nUser::NULL_IND)
+    {
+        nUserIO::nError::Log(nMsg::nNotAllow::CHECKOUTFRIEND_NONLOGGED);
+        return;
+    }
+
+    str username;
+    //Read username of an existing user
+    nUserIO::ReadValid(username, nMsg::nEnter::CHECKOUTFRIEND,
+        [this](const str& s) { return (this->FindUser(s) != nUser::NULL_IND); },
+        nMsg::nNotExist::USERNAME);
+
+    //Find user
+    int userInd = this->FindUser(username);
+
+    if (m_users[userInd].IsFriend(m_userInd))
+    {
+        nUserIO::Log(nMsg::nList::TRIPS);
+        
+        //Show user's trips
+        const std::vector<Trip>& trips = m_users[userInd].GetTrips();
+        PRINT_VEC(trips)
+    }
+    else
+    {
+        nUserIO::nError::Log(nMsg::nNotAllow::CHECKOUT_NONFRIEND);
+    }
+
+    nUserIO::NextLine();
 }
 
 int Core::FindUser(const str& username) const
@@ -238,6 +364,11 @@ int Core::FindUser(const str& username) const
 }
 
 int Core::FindUserByEmail(const str& email) const
+{
+    //TODO
+}
+
+int Core::FindDest(const str& destname) const
 {
     //TODO
 }
@@ -270,23 +401,23 @@ void ReadTripInfo(str& dest, Date& begin, Date& end,
 
 void ReadTripDest(str& dest)
 {
-    nUserIO::ReadValid(dest, [](const str&){return true;}, nMsg::nEnter::DEST, "");
+    nUserIO::ReadValid(dest, nMsg::nEnter::DEST, [](const str&){return true;}, "");
 }
 
 void ReadTripBeginEnd(Date& begin, Date& end)
 {
     str beginStr, endStr;
 
-    nUserIO::ReadValid(beginStr,
+    nUserIO::ReadValid(beginStr, nMsg::nEnter::BEGIN,
         [](const str& s) { return Date::StrIsDate(s); },
-        nMsg::nEnter::BEGIN, nMsg::nInvalid::DATE);
+        nMsg::nInvalid::DATE);
     begin = Date::FromStr(beginStr);
 
-    nUserIO::ReadValid(endStr,
+    nUserIO::ReadValid(endStr, nMsg::nEnter::END,
         [begin](const str& s) {
             return (Date::StrIsDate(s) && begin <= Date::FromStr(s));
         },
-        nMsg::nEnter::END, nMsg::nInvalid::END_DATE);
+        nMsg::nInvalid::END_DATE);
     end = Date::FromStr(endStr);
 }
 
@@ -294,34 +425,34 @@ void ReadTripGrade(int& grade)
 {
     str gradeStr;
 
-    nUserIO::ReadValid(gradeStr,
+    nUserIO::ReadValid(gradeStr, nMsg::nEnter::GRADE,
         [](const str& s) {
             if (!nUserIO::IsInt(s)) return false;
             int grade = std::stoi(s);
             return (grade >= nGrade::MIN && grade <= nGrade::MAX);
         },
-        nMsg::nEnter::GRADE, nMsg::nInvalid::GRADE);
+        nMsg::nInvalid::GRADE);
     grade = std::stoi(gradeStr);
 }
 
 void ReadTripComment(str& comment)
 {
-    nUserIO::ReadValid(comment, [](const str&){return true;}, nMsg::nEnter::COMMENT, "");
+    nUserIO::ReadValid(comment, nMsg::nEnter::COMMENT, [](const str&){return true;}, "");
 }
 
 void ReadTripPhotos(std::vector<str>& photos)
 {
     str photosCountStr;
 
-    nUserIO::ReadValid(photosCountStr,
+    nUserIO::ReadValid(photosCountStr, nMsg::nEnter::PHOTOS_COUNT,
         [](const str& s) { return (nUserIO::IsInt(s) && std::stoi(s) >= 0); },
-        nMsg::nEnter::PHOTOS_COUNT, nMsg::nInvalid::PHOTOS_COUNT);
+        nMsg::nInvalid::PHOTOS_COUNT);
     int photosCount = std::stoi(photosCountStr);
 
     photos = std::vector<str>(photosCount);
     for (int i = 0; i < photosCount; i++)
     {
         str enterMsg = "Enter photo #" + std::to_string(i + 1) + ": ";
-        nUserIO::ReadValid(photos[i], Trip::IsValidPhoto, enterMsg, nMsg::nInvalid::PHOTO);
+        nUserIO::ReadValid(photos[i], enterMsg, Trip::IsValidPhoto, nMsg::nInvalid::PHOTO);
     }
 }

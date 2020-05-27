@@ -15,7 +15,42 @@ bool User::PasswordsMatch(const str& password)
     //TODO
 }
 
+str User::GetNotificationsStr() const
+{
+    //TODO
+}
+
 void User::AddTrip(const Trip& trip)
+{
+    //TODO
+}
+
+const std::vector<Trip>& User::GetTrips() const
+{
+    //TODO
+}
+
+bool User::IsFriend(int userInd) const
+{
+    //TODO
+}
+
+bool User::HasFriendRequest(int userInd) const
+{
+    //TODO
+}
+
+void User::AcceptFriendRequest(int userInd)
+{
+    //TODO
+}
+
+void User::ReceiveFriendRequest(int userInd)
+{
+    //TODO
+}
+
+void User::RemoveFriend(int userInd)
 {
     //TODO
 }

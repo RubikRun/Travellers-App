@@ -33,8 +33,29 @@ class User : public Serializable, public Printable
         //Checks if a password is the same as user's password
         bool PasswordsMatch(const str& password);
 
+        //Returns a string containing the notifications of the user.
+        str GetNotificationsStr() const;
+
         //Adds a new trip to user's trips
         void AddTrip(const Trip&);
+
+        //Returns user's trips
+        const std::vector<Trip>& GetTrips() const;
+
+        //Checks if the other user is a friend
+        bool IsFriend(int userInd) const;
+
+        //Checks if user has a friend request from the other user
+        bool HasFriendRequest(int userInd) const;
+
+        //User accepts a friend request, adds the other user to friends
+        void AcceptFriendRequest(int userInd);
+
+        //The other user has sent a friend request to this user
+        void ReceiveFriendRequest(int userInd);
+
+        //Removes the other user from this user's friends
+        void RemoveFriend(int userInd);
 
         //Check if a username is valid
         static bool UsernameIsValid(const str&);

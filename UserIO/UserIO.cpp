@@ -11,8 +11,9 @@ void nUserIO::ReadCommand(str& command, const str* username)
     std::getline(std::cin, command);
 }
 
-void nUserIO::ReadValid(str& input, const std::function<bool(const str&)>& IsValid,
-    const str& enterMsg, const str& invalidMsg)
+void nUserIO::ReadValid(str& input, const str& enterMsg,
+    const std::function<bool(const str&)>& IsValid1, const str& invalidMsg1,
+    const std::function<bool(const str&)>& IsValid2, const str& invalidMsg2)
 {
     //TODO
 }
@@ -25,6 +26,11 @@ void nUserIO::Log(const str& msg)
 void nUserIO::nError::Log(const str& msg)
 {
     std::cout << "Error: " << msg << std::endl;
+}
+
+void nUserIO::NextLine()
+{
+    std::cout << std::endl;
 }
 
 bool nUserIO::IsInt(const str&)

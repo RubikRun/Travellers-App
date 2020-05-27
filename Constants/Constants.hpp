@@ -61,6 +61,11 @@ namespace nEmail
     }
 }
 
+namespace nDest
+{
+    const int NULL_IND = -1; //index indicating null
+}
+
 namespace nDate
 {
     const str FORMAT = "dd.mm.yyyy";
@@ -104,9 +109,24 @@ namespace nMsg
     "   *Add a new trip to your trips with the \"" + nCommand::ADDTRIP + "\" command\n"
     "   *List all destinations with the \"" + nCommand::LISTDESTS + "\" command\n"
     "   *Check out a destination to see how visitors rated it with the \"" + nCommand::CHECKOUTDEST + "\" command\n"
-    "   *Add a friend (send/confirm a friend request) with the \"" + nCommand::ADDFRIEND + "\" command\n"
+    "   *Add a friend (send/accept a friend request) with the \"" + nCommand::ADDFRIEND + "\" command\n"
     "   *Remove a friend (or decline a friend request) with the \"" + nCommand::REMOVEFRIEND + "\" command\n"
     "   *Check out a friend to see their trips with the \"" + nCommand::CHECKOUTFRIEND + "\" command\n\n";
+
+    namespace nList
+    {
+        const str DESTS =
+        "All destinations: ";
+
+        const str AVG_DEST_GRADE =
+        "Destination's average grade: ";
+
+        const str DEST_GRADES =
+        "All grades it recieved: ";
+
+        const str TRIPS =
+        "All user's trips: ";
+    }
 
     namespace nEnter
     {
@@ -136,6 +156,15 @@ namespace nMsg
 
         const str PHOTOS_COUNT =
         "Enter the number of photos: ";
+
+        const str ADDFRIEND =
+        "Enter username of the user you want to add as a friend: ";
+
+        const str RMFRIEND =
+        "Enter username of the user you want to remove from you friends: ";
+
+        const str CHECKOUTFRIEND =
+        "Enter username of you friend whose trips you want to see: ";
     }
 
     namespace nSuccess
@@ -151,6 +180,15 @@ namespace nMsg
 
         const str ADDTRIP =
         "Trip added successfully.";
+
+        const str ACCEPT_FRREQ =
+        "Friend request accepted.";
+
+        const str SENT_FRREQ =
+        "Friend request sent.";
+
+        const str REMOVE_FRIEND =
+        "Friend removed successfully.";
     }
 
     namespace nInvalid
@@ -196,6 +234,15 @@ namespace nMsg
         "and have a .png or .jpeg extension.";
     }
 
+    namespace nNotUnique
+    {
+        const str USERNAME =
+        "There is already a user with this username.";
+
+        const str EMAIL =
+        "This email is being used by another user.";
+    }
+
     namespace nNotAllow
     {
         const str REGISTER_LOGGED =
@@ -213,11 +260,38 @@ namespace nMsg
 
         const str ADDTRIP_NONLOGGED =
         "You cannot add a trip. You are not logged in.";
+
+        const str LISTDESTS_NONLOGGED =
+        "You cannot list destinations. You are not logged in.";
+
+        const str CHECKOUTDEST_NONLOGGED =
+        "You cannot check out a destination. You are not logged in.";
+
+        const str ADDFRIEND_NONLOGGED =
+        "You cannot add a friend. You are not logged in.";
+
+        const str ADDFRIEND_FRIEND =
+        "This user is already your friend.";
+
+        const str RMFRIEND_NONLOGGED =
+        "You cannot remove a friend. You are not logged in.";
+
+        const str RM_NONFRIEND =
+        "This user is already not your friend.";
+
+        const str CHECKOUTFRIEND_NONLOGGED =
+        "You cannot checkout a friend. You are not logged in.";
+
+        const str CHECKOUT_NONFRIEND =
+        "You are not a friend of this user, you cannot see his trips";
     }
 
     namespace nNotExist
     {
         const str USERNAME =
         "There is no user with this username.";
+
+        const str DESTNAME =
+        "There is no destination with this name";
     }
 }
