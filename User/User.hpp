@@ -1,12 +1,14 @@
 #pragma once
 
+#include "../DatabaseIO/Serializable.hpp"
+#include "../UserIO/Printable.hpp"
 #include "../Trip/Trip.hpp"
 
 #include <string>
 #include <vector>
 typedef std::string str;
 
-class User
+class User : public Serializable, public Printable
 {
     //User's info
     str m_username, m_password, m_email;
@@ -19,6 +21,15 @@ class User
 
     public:
 
+        //Creates a
+        User();
+
         //Returns user's username
         const str& GetUsername() const;
+
+        str Serialize() const;
+
+        void Deserialize(const str&);
+
+        str ToStr() const;
 };

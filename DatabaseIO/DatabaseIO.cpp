@@ -2,10 +2,8 @@
 #include "../Constants/Constants.hpp"
 
 #include <queue>
-#include <string>
-typedef std::string str;
 
-void nDatabaseIO::Read(Serializable& obj, std::istream& db)
+void nDatabaseIO::ReadStr(str& s, std::istream& db)
 {
     std::queue<char> chars;
 
@@ -15,13 +13,42 @@ void nDatabaseIO::Read(Serializable& obj, std::istream& db)
     {
         chars.push(newChar);
     }
-    //Create a string from the queue
-    str serialized(chars.size(), 0);
-    for (int i = 0; i < serialized.size(); i++)
+    //Create string from the queue
+    s = str(chars.size(), 0);
+    for (int i = 0; i < s.size(); i++)
     {
-        serialized[i] = chars.front();
+        s[i] = chars.front();
         chars.pop();
     }
+}
+
+void nDatabaseIO::WriteStr(const str& s, std::ostream& db)
+{
+    db << s << nDatabase::DELIMETER;
+}
+
+int nDatabaseIO::ReadInt(std::istream& db)
+{
+    //Read string from database
+    str s;
+    nDatabaseIO::ReadStr(s, db);
+    //Parse it to int
+    int result = std::stoi(s);
+
+    return result;
+}
+
+void nDatabaseIO::WriteInt(int n, std::ostream& db)
+{
+    str nStr = std::to_string(n);
+    nDatabaseIO::WriteStr(nStr, db);
+}
+
+void nDatabaseIO::Read(Serializable& obj, std::istream& db)
+{
+    //Read serialized string from database
+    str serialized;
+    nDatabaseIO::ReadStr(serialized, db);
 
     //Deserialize the string
     obj.Deserialize(serialized);
@@ -32,6 +59,6 @@ void nDatabaseIO::Write(const Serializable& obj, std::ostream& db)
     //Serializa the object
     str serialized = obj.Serialize();
 
-    //Write it to stream
-    db << serialized << nDatabase::DELIMETER;
+    //Write it to database
+    nDatabaseIO::WriteStr(serialized, db);
 }

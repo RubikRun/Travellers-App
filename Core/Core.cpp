@@ -1,9 +1,7 @@
 #include "Core.hpp"
 #include "../UserIO/UserIO.hpp"
+#include "../DatabaseIO/DatabaseIO.hpp"
 #include "../Constants/Constants.hpp"
-#include "../Macros/Macros.hpp"
-
-#include <iostream>
 
 Core::Core()
     : m_userInd(nUser::NULL_IND), m_running(false) {}
@@ -30,14 +28,52 @@ void Core::Run()
     }
 }
 
-void Core::LoadUsers(const str& usersDb)
+void Core::LoadUsers(const str& dbName)
 {
-    //TODO
+    //Open users database
+    OPEN_IFILE(db, dbName, return)
+
+    //Read users from database
+    DB_READ_VEC(db, m_users, User)
+
+    //Close database
+    CLOSE_FILE(db, dbName, return)
 }
 
-void Core::LoadDests(const str& destsDb)
+void Core::SaveUsers(const str& dbName)
 {
-    //TODO
+    //Open users database
+    OPEN_OFILE(db, dbName, return)
+
+    //Read users from database
+    DB_WRITE_VEC(db, m_users, User)
+
+    //Close database
+    CLOSE_FILE(db, dbName, return)
+}
+
+void Core::LoadDests(const str& dbName)
+{
+    //Open destinations database
+    OPEN_IFILE(db, dbName, return)
+
+    //Read destinations from database
+    DB_READ_VEC(db, m_dests, Destination)
+
+    //Close database
+    CLOSE_FILE(db, dbName, return)
+}
+
+void Core::SaveDests(const str& dbName)
+{
+    //Open destinations database
+    OPEN_OFILE(db, dbName, return)
+
+    //Read destinations from database
+    DB_WRITE_VEC(db, m_dests, Destination)
+
+    //Close database
+    CLOSE_FILE(db, dbName, return)
 }
 
 void Core::ExecuteCommand(const str& command)

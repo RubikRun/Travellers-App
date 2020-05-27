@@ -37,8 +37,14 @@ class Core
         //Loads users from a database
         void LoadUsers(const str& usersDb);
 
+        //Saves users to database
+        void SaveUsers(const str& usersDb);
+
         //Loads destinations from a database
         void LoadDests(const str& destsDb);
+
+        //Saves destinations to database
+        void SaveDests(const str& destsDb);
 
         //Executes a command
         void ExecuteCommand(const str& command);
