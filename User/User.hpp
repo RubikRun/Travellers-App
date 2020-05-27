@@ -21,11 +21,29 @@ class User : public Serializable, public Printable
 
     public:
 
-        //Creates a
+        //Creates an empty user
         User();
+
+        //Creates a user with the given info
+        User(const str& username, const str& password, const str& email);
 
         //Returns user's username
         const str& GetUsername() const;
+
+        //Checks if a password is the same as user's password
+        bool PasswordsMatch(const str& password);
+
+        //Adds a new trip to user's trips
+        void AddTrip(const Trip&);
+
+        //Check if a username is valid
+        static bool UsernameIsValid(const str&);
+        
+        //Checks if a password is valid
+        static bool PasswordIsValid(const str&);
+
+        //Checks if an email is valid
+        static bool EmailIsValid(const str&);
 
         str Serialize() const;
 

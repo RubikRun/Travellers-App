@@ -29,6 +29,49 @@ namespace nUser
     }
 }
 
+namespace nUsername
+{
+    namespace nLength
+    {
+        const int MIN = 3;
+        const int MAX = 30;
+    }
+}
+
+namespace nPassword
+{
+    namespace nLength
+    {
+        const int MIN = 8;
+        const int MAX = 40;
+    }
+}
+
+namespace nEmail
+{
+    const char AT = '@';
+    const char DOT = '.';
+    const int AT_DOT_DIFF = 2;
+    const int DOT_DIFF = 2;
+    const int AT_DIFF = 1;
+    namespace nLength
+    {
+        const int MIN = AT_DIFF + 1 + AT_DOT_DIFF + 1 + DOT_DIFF;
+        const int MAX = 40;
+    }
+}
+
+namespace nDate
+{
+    const str FORMAT = "dd.mm.yyyy";
+}
+
+namespace nGrade
+{
+    const int MIN = 0;
+    const int MAX = 5;
+}
+
 namespace nCommand
 {
     const str EXIT = "exit";
@@ -50,10 +93,6 @@ namespace nMsg
     "Hello! Welcome to " + nName::APP + "!\n"
     "Type \"" + nCommand::HELP + "\" if you don't know how to use it.\n";
 
-    const str COMMAND_INVALID =
-    "Not a valid command.\n"
-    "Type \"" + nCommand::HELP + "\" if you don't know what to do.\n";
-
     const str HELP =
     "Hi! I will show you how to use " + nName::APP + ".\n"
     "You can execute commands by typing them and pressing enter.\n"
@@ -68,4 +107,117 @@ namespace nMsg
     "   *Add a friend (send/confirm a friend request) with the \"" + nCommand::ADDFRIEND + "\" command\n"
     "   *Remove a friend (or decline a friend request) with the \"" + nCommand::REMOVEFRIEND + "\" command\n"
     "   *Check out a friend to see their trips with the \"" + nCommand::CHECKOUTFRIEND + "\" command\n\n";
+
+    namespace nEnter
+    {
+        const str USERNAME =
+        "Enter username: ";
+
+        const str PASSWORD =
+        "Enter password: ";
+
+        const str EMAIL =
+        "Enter email: ";
+
+        const str DEST =
+        "Enter destination: ";
+
+        const str BEGIN =
+        "Enter begin date: ";
+
+        const str END =
+        "Enter end date: ";
+
+        const str GRADE =
+        "Enter grade: ";
+
+        const str COMMENT =
+        "Enter comment: ";
+
+        const str PHOTOS_COUNT =
+        "Enter the number of photos: ";
+    }
+
+    namespace nSuccess
+    {
+        const str REGISTER =
+        "You registered successfully.";
+
+        const str LOGIN =
+        "You logged in successfully.";
+
+        const str LOGOUT =
+        "You logged out successfully.";
+
+        const str ADDTRIP =
+        "Trip added successfully.";
+    }
+
+    namespace nInvalid
+    {
+        const str COMMAND =
+        "Not a valid command.\n"
+        "Type \"" + nCommand::HELP + "\" if you don't know what to do.\n";
+
+        const str USERNAME =
+        "Not a valid username.\n"
+        "Usernames should be between " +
+        std::to_string(nUsername::nLength::MIN) + " and " + std::to_string(nUsername::nLength::MAX)
+        + " characters long and contain no spaces.";
+
+        const str PASSWORD =
+        "Not a valid password.\n"
+        "Passwords should be between " +
+        std::to_string(nPassword::nLength::MIN) + " and " + std::to_string(nPassword::nLength::MAX)
+        + " characters long\n"
+        "and contain at least one letter and at least one digit.";
+
+        const str EMAIL =
+        "Not a valid email address.";
+
+        const str DATE =
+        "Not a valid date. Dates should be in " + nDate::FORMAT + " format.";
+
+        const str END_DATE =
+        "End date cannot be before begin date.\n"
+        "Also it should be in " + nDate::FORMAT + " format.";
+
+        const str GRADE =
+        "Not a valid grade.\n"
+        "Grades should be integers between " +
+        std::to_string(nGrade::MIN) + " and " + std::to_string(nGrade::MAX) + ".";
+
+        const str PHOTOS_COUNT =
+        "Not a valid number. It should be a non-negative integer.";
+
+        const str PHOTO =
+        "Not a valid photo file name.\n"
+        "Photo file names should contain only letters and underscores\n"
+        "and have a .png or .jpeg extension.";
+    }
+
+    namespace nNotAllow
+    {
+        const str REGISTER_LOGGED =
+        "You cannot register while you're logged in.";
+
+        const str LOGIN_LOGGED =
+        "You are already logged in.\n"
+        "Use \"" + nCommand::LOGOUT + "\" command to log out.";
+
+        const str PASSWORD =
+        "Incorrect password.";
+
+        const str LOGOUT_NONLOGGED =
+        "You cannot log out. You are not logged in.";
+
+        const str ADDTRIP_NONLOGGED =
+        "You cannot add a trip. You are not logged in.";
+    }
+
+    namespace nNotExist
+    {
+        const str USERNAME =
+        "There is no user with this username.";
+    }
 }

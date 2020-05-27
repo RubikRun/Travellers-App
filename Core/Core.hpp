@@ -81,4 +81,14 @@ class Core
 
         //Lists the trips of a friend
         void CheckoutFriend() const;
+
+        //Finds the user with the given username (returns their index)
+        int FindUser(const str& username) const;
+
+        //Finds the user with the given email (returns their index)
+        int FindUserByEmail(const str& email) const;
+
+        //Finds/Creates the destination with the given name,
+        //updates its grades, and returns its index
+        int UpdateDests(const str& destName, int userInd, int grade);
 };
