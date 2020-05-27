@@ -5,13 +5,13 @@
 #include <string>
 typedef std::string str;
 
-void nDatabaseIO::Read(Serializable& obj, std::istream& stream)
+void nDatabaseIO::Read(Serializable& obj, std::istream& db)
 {
     std::queue<char> chars;
 
     char newChar;
     //Read chars one by one and push them to the queue
-    while ((stream >> std::noskipws >> newChar) && newChar != nDatabase::DELIMETER)
+    while ((db >> std::noskipws >> newChar) && newChar != nDatabase::DELIMETER)
     {
         chars.push(newChar);
     }
@@ -27,11 +27,11 @@ void nDatabaseIO::Read(Serializable& obj, std::istream& stream)
     obj.Deserialize(serialized);
 }
 
-void nDatabaseIO::Write(const Serializable& obj, std::ostream& stream)
+void nDatabaseIO::Write(const Serializable& obj, std::ostream& db)
 {
     //Serializa the object
     str serialized = obj.Serialize();
 
     //Write it to stream
-    stream << serialized << nDatabase::DELIMETER;
+    db << serialized << nDatabase::DELIMETER;
 }
