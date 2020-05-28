@@ -119,6 +119,9 @@ void App::LogIn()
     m_core.SetCurrUser(username);
 
     nUI::PrintMsg(nMsg::nSuccess::LOGIN);
+
+    //Show user's notifications
+    nUI::PrintMsg(m_core.GetCurrUserNotifs());
 }
 
 void App::LogOut()

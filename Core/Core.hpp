@@ -28,13 +28,13 @@ class Core
     //and for each destination keeping a list of grades received by users
     std::map< str, std::vector<UserGrade> > m_destUserGrades;
 
-    //Friendships between the users.
-    //If two users with indecies A and B are friends, we will have (A,B) and (B,A) in the set
-    std::set<UsersPair> m_friendships;
-
-    //Friend requests between users.
-    //For each user we will keep a list of their received friend requests.
-    std::map<int, std::vector<int>> m_frReqs;
+    //Each user's set of friends.
+    //This kind of structure allows for one-way and two-way friendships
+    //so we will consider the two-way friendship to be the real friendship,
+    //and the one-way friendship will indicate a non-answered friend request.
+    //Meaning that when user A sends a request to user B, B becomes a friend of A,
+    //but A does not become a friend of B, until B confirms the request.
+    std::map<int, std::set<int>> m_friends;
 
     //The currently logged in user (their index)
     int m_currUserInd;
@@ -101,4 +101,7 @@ class Core
 
     //Returns a list of the trips of the user with this username
     void GetTripsOf(const str& username) const;
+
+    //Returns a string with the current user's notifications
+    str GetCurrUserNotifs() const;
 };
