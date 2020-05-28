@@ -40,6 +40,9 @@ class User : public Serializable
     //Returns user's email
     const str& GetEmail() const;
 
+    //Returns a list of user's trips
+    const std::vector<Trip>& GetTrips() const;
+
     //Adds a new trip to user's trips
     void AddTrip(const Trip&);
 
