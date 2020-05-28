@@ -6,5 +6,8 @@
 
 class App
 {
-
+  public:
+    
+    //Runs the app
+    void Run();
 };
