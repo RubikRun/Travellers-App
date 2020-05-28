@@ -8,6 +8,8 @@ typedef std::string str;
 
 class Serializable
 {
+  public:
+
     //Serializes the object to a string
     virtual str Serialize() const = 0;
 

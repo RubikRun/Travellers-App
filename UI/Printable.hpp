@@ -4,6 +4,8 @@
 
 class Printable
 {
+  public:
+
     //Prints the object to the user
     virtual void Print() const = 0;
 };
