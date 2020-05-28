@@ -1,6 +1,7 @@
 #include "App.hpp"
 #include "UI/UI.hpp"
 
+#include <vector>
 #include <string>
 typedef std::string str;
 
@@ -34,6 +35,16 @@ namespace nCommand
 bool UsernameIsValid(const str&);
 bool PasswordIsValid(const str&);
 bool EmailIsValid(const str&);
+bool DateStrIsValid(const str&);
+bool GradeStrIsValid(const str&);
+bool PhotosCountStrIsValid(const str&);
+bool PhotoIsValid(const str&);
+
+//Reads valid begin and end dates
+void ReadBeginEndDate(Date& begin, Date& end);
+
+//Reads valid photos
+void ReadPhotos(std::vector<str>& photos);
 
 App::App()
 {
@@ -136,7 +147,26 @@ void App::LogOut()
 
 void App::AddTrip()
 {
-    //TODO
+    VALIDATE(m_core.IsThereCurrUser(), /*nothing*/, return, nMsg::nNotAllow::WHEN_LOGGED_IN)
+
+    //Read a destination
+    str dest = nUI::ReadValidInput(nMsg::nInput::DEST);
+    //Read valid begin and end dates
+    Date begin, end;
+    ReadBeginEndDate(begin, end);
+    //Read a valid grade
+    str gradeStr = nUI::ReadValidInput(nMsg::nInput::GRADE, GradeStrIsValid, nMsg::nInvalid::GRADE);
+    int grade = std::stoi(gradeStr);
+    //Read a comment
+    str comment = nUI::ReadValidInput(nMsg::nInput::COMMENT);
+    //Read valid photos
+    std::vector<str> photos;
+    ReadPhotos(photos);
+
+    //Add the trip to current user's trips
+    m_core.CurrUserAddTrip(dest, begin, end, grade, comment, photos);
+
+    nUI::PrintMsg(nMsg::nSuccess::ADDTRIP);
 }
 
 void App::ListDests() const

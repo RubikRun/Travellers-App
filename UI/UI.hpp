@@ -38,6 +38,7 @@ namespace nMsg
         const str USERNAME = "TODO";
         const str PASSWORD = "TODO";
         const str EMAIL = "TODO";
+        const str GRADE = "TODO";
     }
 
     namespace nDuplicate
@@ -63,6 +64,9 @@ namespace nMsg
         const str USERNAME = "TODO";
         const str PASSWORD = "TODO";
         const str EMAIL = "TODO";
+        const str DEST = "TODO";
+        const str GRADE = "TODO";
+        const str COMMENT = "TODO";
     }
 
     namespace nSuccess
@@ -70,5 +74,6 @@ namespace nMsg
         const str REGISTER = "TODO";
         const str LOGIN = "TODO";
         const str LOGOUT = "TODO";
+        const str ADDTRIP = "TODO";
     }
 }
