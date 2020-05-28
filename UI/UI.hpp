@@ -26,3 +26,13 @@ namespace nUI
         void PrintMsg(const str& msg);
     }
 }
+
+namespace nMsg
+{
+    const str WELCOME = "TODO";
+
+    namespace nInvalid
+    {
+        const str COMMAND = "TODO";
+    }
+}
