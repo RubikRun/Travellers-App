@@ -8,8 +8,7 @@
 
 #include <vector>
 #include <map>
-#include <unordered_map>
-#include <unordered_set>
+#include <set>
 #include <string>
 typedef std::string str;
 
@@ -18,7 +17,7 @@ typedef std::string str;
 struct UserGrade { int userInd, grade; };
 
 //A pair of users' indecies
-struct UsersPair { int firstInd, secondInd; };
+struct UsersPair { int firstInd, secondInd;};
 
 class Core
 {
@@ -31,11 +30,11 @@ class Core
 
     //Friendships between the users.
     //If two users with indecies A and B are friends, we will have (A,B) and (B,A) in the set
-    std::unordered_set<UsersPair> m_friendships;
+    std::set<UsersPair> m_friendships;
 
     //Friend requests between users.
     //For each user we will keep a list of their received friend requests.
-    std::unordered_map<int, std::vector<int>> m_frReqs;
+    std::map<int, std::vector<int>> m_frReqs;
 
     //The currently logged in user (their index)
     int m_currUserInd;
