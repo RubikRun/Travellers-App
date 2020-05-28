@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Trip/Trip.hpp"
+#include "../Trip/Trip.hpp"
 #include "../Database/Serializable.hpp"
 
 #include <vector>

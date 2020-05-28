@@ -5,8 +5,8 @@
 #pragma once
 
 #include "Date/Date.hpp"
-#include "../../Database/Serializable.hpp"
-#include "../../../UI/Printable.hpp"
+#include "../Database/Serializable.hpp"
+#include "../../UI/Printable.hpp"
 
 #include <vector>
 #include <string>

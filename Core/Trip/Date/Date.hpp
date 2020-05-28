@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "../../../Database/Serializable.hpp"
-#include "../../../../UI/Printable.hpp"
+#include "../../Database/Serializable.hpp"
+#include "../../../UI/Printable.hpp"
 
 #include <string>
 typedef std::string str;
