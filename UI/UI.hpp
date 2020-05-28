@@ -30,9 +30,45 @@ namespace nUI
 namespace nMsg
 {
     const str WELCOME = "TODO";
+    const str HELP = "TODO";
 
     namespace nInvalid
     {
         const str COMMAND = "TODO";
+        const str USERNAME = "TODO";
+        const str PASSWORD = "TODO";
+        const str EMAIL = "TODO";
+    }
+
+    namespace nDuplicate
+    {
+        const str USERNAME = "TODO";
+        const str EMAIL = "TODO";
+    }
+
+    namespace nNotAllow
+    {
+        const str WHEN_LOGGED_IN = "TODO";
+        const str WHEN_NOT_LOGGED_IN = "TODO";
+        const str PASSWORD_NOT_MATCHING = "TODO";
+    }
+
+    namespace nNotExist
+    {
+        const str USERNAME = "TODO";
+    }
+
+    namespace nInput
+    {
+        const str USERNAME = "TODO";
+        const str PASSWORD = "TODO";
+        const str EMAIL = "TODO";
+    }
+
+    namespace nSuccess
+    {
+        const str REGISTER = "TODO";
+        const str LOGIN = "TODO";
+        const str LOGOUT = "TODO";
     }
 }

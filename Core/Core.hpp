@@ -44,8 +44,8 @@ class Core
     //Loads the core from the database
     void Load();
 
-    //Adds a new user to app's users
-    void AddUser(const User&);
+    //Adds a new user with the given info to app's users
+    void AddUser(const str& username, const str& password, const str& email);
 
     //Checks if there is a registered user with this username
     bool UsernameExists(const str& username) const;
@@ -72,7 +72,8 @@ class Core
     void LogOutCurrUser();
 
     //Adds a new trip to the current user's trips
-    void CurrUserAddTrip(const Trip&);
+    void CurrUserAddTrip(const str& dest, const Date& begin, const Date& end,
+        int grade, const str& comment, const std::vector<str>& photos);
 
     //Returns a list of all the destinations
     const std::vector<str>& GetDests() const;
