@@ -14,5 +14,5 @@ class Serializable
     virtual str Serialize() const = 0;
 
     //Deserializes the object from a string
-    virtual void Deserialize(str&) = 0;
+    virtual void Deserialize(const str&) = 0;
 };

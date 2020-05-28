@@ -21,7 +21,7 @@ class Date : public Serializable, public Printable
     //Creates a date with the given year, month and day
     Date(int year, int month, int day);
 
-    //Comparing two dates
+    //Operators for comparing two dates
     friend bool operator==(const Date&, const Date&);
     friend bool operator<(const Date&, const Date&);
     friend bool operator<=(const Date&, const Date&);
@@ -31,7 +31,7 @@ class Date : public Serializable, public Printable
     //Serializes the date
     str Serialize() const;
 
-    //Deserializes the date from a string
+    //Deserializes the date
     void Deserialize(const str&);
 
     //Prints the date to the user
