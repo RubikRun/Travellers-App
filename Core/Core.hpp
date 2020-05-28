@@ -59,11 +59,17 @@ class Core
     //Checks if this is the password of the user with this username
     bool UserPasswordMatch(const str& username, const str& password) const;
 
+    //Checks if there is a current user
+    bool IsThereCurrUser() const;
+
     //Sets the current user to the user with this username
     void SetCurrUser(const str& username);
 
     //Returns the username of the current user
     const str& GetCurrUser() const;
+
+    //Sets the current user to null, indicating that there is no current user
+    void LogOutCurrUser();
 
     //Adds a new trip to the current user's trips
     void CurrUserAddTrip(const Trip&);
