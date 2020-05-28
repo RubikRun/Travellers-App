@@ -1,9 +1,10 @@
+//A file containing all functionality needed to read/write from/to database
+
 #pragma once
 
 #include "Serializable.hpp"
 
 #include <iostream>
-#include <vector>
 #include <string>
 typedef std::string str;
 

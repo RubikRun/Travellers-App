@@ -31,7 +31,7 @@ class Trip : public Serializable, public Printable
 
   public:
 
-    //Creates an empty trip
+    //Creates a default trip
     Trip();  
 
     //Creates a trip with the given info
