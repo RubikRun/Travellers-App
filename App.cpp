@@ -35,6 +35,8 @@ void App::Run()
         str command = nUI::ReadCommand(currUser + ": ");
         this->ExecuteCommand(command);
     }
+
+    m_core.Save();
 }
 
 void App::ExecuteCommand(const str& command)

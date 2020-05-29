@@ -44,6 +44,9 @@ class Core
     //Loads the core from the database
     void Load();
 
+    //Saves the core to the database
+    void Save();
+
     //Adds a new user with the given info to app's users
     void AddUser(const str& username, const str& password, const str& email);
 
@@ -107,4 +110,30 @@ class Core
 
     //Returns a string with the current user's notifications
     str GetCurrUserNotifs() const;
+
+  private:
+
+    //Loads users from a database
+    void LoadUsers(const str& usersDb);
+
+    //Loads destinations from a database
+    void LoadDests(const str& destsDb);
+
+    //Saves user to a database
+    void SaveUsers(const str& usersDb) const;
+
+    //Saves destinations to a database
+    void SaveDests(const str& destsDb) const;
+
+    //Reads users from a database
+    void ReadUsers(std::ifstream& db);
+
+    //Reads friendships from a database
+    void ReadFriendships(std::ifstream& db);
+
+    //Writes users to a database
+    void WriteUsers(std::ofstream& db) const;
+
+    //Writes friendships to a database
+    void WriteFriendships(std::ofstream& db) const;
 };
