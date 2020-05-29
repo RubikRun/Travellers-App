@@ -76,10 +76,10 @@ class Core
         int grade, const str& comment, const std::vector<str>& photos);
 
     //Returns a list of all the destinations
-    const std::vector<str>& GetDests() const;
+    std::vector<str> GetDests() const;
 
     //Returns a list of all the grades received by users for this destination
-    const std::vector<UserGrade>& GetUserGrades(const str& dest) const;
+    const std::vector<UserGrade>& GetUsersGrades(const str& dest) const;
 
     //Checks if the user with this username is a friend of the current user
     bool IsFrToCurr(const str& username) const;

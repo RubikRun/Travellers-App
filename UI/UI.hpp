@@ -20,6 +20,9 @@ namespace nUI
     //Prints a message to the user
     void PrintMsg(const str& msg);
 
+    //Prints a vector of strings to the user
+    void PrintVec(const std::vector<str>& vec, const str& beginMsg = "", const str& endMsg = "");
+
     namespace nError
     {
         //Prints an error message to the user
@@ -75,5 +78,10 @@ namespace nMsg
         const str LOGIN = "TODO";
         const str LOGOUT = "TODO";
         const str ADDTRIP = "TODO";
+    }
+
+    namespace nList
+    {
+        const str DESTS = "TODO";
     }
 }

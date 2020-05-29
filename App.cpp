@@ -5,15 +5,16 @@
 #include <string>
 typedef std::string str;
 
-#define VALIDATE(condition, onValid, onInvalid, invalidMsg) \
-if (condition) \
-{ \
-    onValid; \
-} \
-else \
-{ \
-    nUI::nError::PrintMsg(invalidMsg); \
-    onInvalid; \
+#define DONT_ALLOW_LOGGED_IN \
+if (m_core.IsThereCurrUser()) { \
+    nUI::nError::PrintMsg(nMsg::nNotAllow::WHEN_LOGGED_IN); \
+    return; \
+}
+
+#define ALLOW_ONLY_LOGGED_IN \
+if (!m_core.IsThereCurrUser()) { \
+    nUI::nError::PrintMsg(nMsg::nNotAllow::WHEN_NOT_LOGGED_IN); \
+    return; \
 }
 
 namespace nCommand
@@ -32,19 +33,25 @@ namespace nCommand
 }
 
 //Validation functions
-bool UsernameIsValid(const str&);
-bool PasswordIsValid(const str&);
-bool EmailIsValid(const str&);
-bool DateStrIsValid(const str&);
-bool GradeStrIsValid(const str&);
-bool PhotosCountStrIsValid(const str&);
-bool PhotoIsValid(const str&);
+namespace nInputValidator
+{
+    bool Username(const str&);
+    bool Password(const str&);
+    bool Email(const str&);
+    bool DateStr(const str&);
+    bool GradeStr(const str&);
+    bool PhotosCountStr(const str&);
+    bool Photo(const str&);
+}
 
 //Reads valid begin and end dates
 void ReadBeginEndDate(Date& begin, Date& end);
 
 //Reads valid photos
 void ReadPhotos(std::vector<str>& photos);
+
+//Prints a list of grades
+void PrintUsersGrades(const std::vector<UserGrade>& usersGrades);
 
 App::App()
 {
@@ -94,17 +101,17 @@ void App::Help() const
 
 void App::Register()
 {
-    VALIDATE(!m_core.IsThereCurrUser(), /*nothing*/, return, nMsg::nNotAllow::WHEN_NOT_LOGGED_IN)
+    DONT_ALLOW_LOGGED_IN
 
     //Read a valid and unique username
-    str username = nUI::ReadValidInput(nMsg::nInput::USERNAME, UsernameIsValid, nMsg::nInvalid::USERNAME,
+    str username = nUI::ReadValidInput(nMsg::nInput::USERNAME, nInputValidator::Username, nMsg::nInvalid::USERNAME,
         [this](const str& u) { return !this->m_core.UsernameExists(u); }, nMsg::nDuplicate::USERNAME);
 
     //Read a valid password
-    str password = nUI::ReadValidInput(nMsg::nInput::PASSWORD, PasswordIsValid, nMsg::nInvalid::PASSWORD);
+    str password = nUI::ReadValidInput(nMsg::nInput::PASSWORD, nInputValidator::Password, nMsg::nInvalid::PASSWORD);
 
     //Read a valid and unique email
-    str email = nUI::ReadValidInput(nMsg::nInput::EMAIL, EmailIsValid, nMsg::nInvalid::EMAIL,
+    str email = nUI::ReadValidInput(nMsg::nInput::EMAIL, nInputValidator::Email, nMsg::nInvalid::EMAIL,
         [this](const str& e) { return !this->m_core.EmailExists(e); }, nMsg::nDuplicate::EMAIL);
 
     //Add user to core
@@ -115,7 +122,7 @@ void App::Register()
 
 void App::LogIn()
 {
-    VALIDATE(!m_core.IsThereCurrUser(), /*nothing*/, return, nMsg::nNotAllow::WHEN_NOT_LOGGED_IN)
+    DONT_ALLOW_LOGGED_IN
 
     //Read a username of an existing user
     str username = nUI::ReadValidInput(nMsg::nInput::USERNAME,
@@ -137,7 +144,7 @@ void App::LogIn()
 
 void App::LogOut()
 {
-    VALIDATE(m_core.IsThereCurrUser(), /*nothing*/, return, nMsg::nNotAllow::WHEN_LOGGED_IN)
+    ALLOW_ONLY_LOGGED_IN
 
     //Log out the user
     m_core.LogOutCurrUser();
@@ -147,7 +154,7 @@ void App::LogOut()
 
 void App::AddTrip()
 {
-    VALIDATE(m_core.IsThereCurrUser(), /*nothing*/, return, nMsg::nNotAllow::WHEN_LOGGED_IN)
+    ALLOW_ONLY_LOGGED_IN
 
     //Read a destination
     str dest = nUI::ReadValidInput(nMsg::nInput::DEST);
@@ -155,7 +162,7 @@ void App::AddTrip()
     Date begin, end;
     ReadBeginEndDate(begin, end);
     //Read a valid grade
-    str gradeStr = nUI::ReadValidInput(nMsg::nInput::GRADE, GradeStrIsValid, nMsg::nInvalid::GRADE);
+    str gradeStr = nUI::ReadValidInput(nMsg::nInput::GRADE, nInputValidator::GradeStr, nMsg::nInvalid::GRADE);
     int grade = std::stoi(gradeStr);
     //Read a comment
     str comment = nUI::ReadValidInput(nMsg::nInput::COMMENT);
@@ -171,12 +178,27 @@ void App::AddTrip()
 
 void App::ListDests() const
 {
-    //TODO
+    ALLOW_ONLY_LOGGED_IN
+
+    //Get all destinations
+    std::vector<str> dests = m_core.GetDests();
+
+    //Print destinations
+    nUI::PrintVec(dests, nMsg::nList::DESTS);
 }
 
 void App::CheckoutDest()
 {
-    //TODO
+    ALLOW_ONLY_LOGGED_IN
+
+    //Read a destination
+    str dest = nUI::ReadValidInput(nMsg::nInput::DEST);
+
+    //Get the grades of that destination
+    const std::vector<UserGrade> usersGrades = m_core.GetUsersGrades(dest);
+
+    //Print grades
+    PrintUsersGrades(usersGrades);
 }
 
 void App::AddFriend()
