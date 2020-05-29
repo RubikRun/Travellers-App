@@ -203,12 +203,65 @@ void App::CheckoutDest()
 
 void App::AddFriend()
 {
-    //TODO
+    ALLOW_ONLY_LOGGED_IN
+
+    //Read a username of an existing user
+    str fr = nUI::ReadValidInput(nMsg::nInput::USERNAME,
+        [this](const str& u) { return this->m_core.UsernameExists(u); }, nMsg::nNotExist::USERNAME);
+
+    str currUser = m_core.GetCurrUser();
+
+    if (fr == currUser)
+        nUI::nError::PrintMsg(nMsg::nNotAllow::ADDFRIEND_SELF);
+    else if (m_core.AreFr(currUser, fr))
+        nUI::PrintMsg(nMsg::nNotAllow::ADDFRIEND_FR);
+    else if (m_core.HasFrReqFrom(fr, currUser))
+        nUI::nError::PrintMsg(nMsg::nNotAllow::ADDFRIEND_FRREQ);
+    else if (m_core.HasFrReqFrom(currUser, fr))
+    {
+        //Confirm the friend request from the other user
+        m_core.ConfirmFrReq(currUser, fr);
+        nUI::PrintMsg(nMsg::nSuccess::FRREQ_CONFIRMED);
+    }
+    else
+    {
+        //Sends a friend request to the other user
+        m_core.SendFrReq(currUser, fr);
+        nUI::PrintMsg(nMsg::nSuccess::FRREQ_SENT);
+    }
+    
 }
 
 void App::RemoveFriend()
 {
-    //TODO
+    ALLOW_ONLY_LOGGED_IN
+
+    //Read a username of an existing user
+    str fr = nUI::ReadValidInput(nMsg::nInput::USERNAME,
+        [this](const str& u) { return this->m_core.UsernameExists(u); }, nMsg::nNotExist::USERNAME);
+
+    str currUser = m_core.GetCurrUser();
+
+    if (fr == currUser)
+        nUI::nError::PrintMsg(nMsg::nNotAllow::RMFRIEND_SELF);
+    else if (m_core.AreFr(currUser, fr))
+    {
+        //Remove the other user from friends
+        m_core.RmFr(currUser, fr);
+        nUI::PrintMsg(nMsg::nSuccess::RMFRIEND_FR);
+    }
+    else if (m_core.HasFrReqFrom(currUser, fr))
+    {
+        //Decline the friend request from the other user
+        m_core.DeclineFrReq(currUser, fr);
+        nUI::PrintMsg(nMsg::nSuccess::FRREQ_DECLINED);
+    }
+    else if (m_core.HasFrReqFrom(fr, currUser))
+    {
+        m_core.UnsendFrReq(currUser, fr);
+        nUI::PrintMsg(nMsg::nSuccess::FRREQ_UNSENT);
+    }
+    else nUI::PrintMsg(nMsg::nNotAllow::RMFRIEND_NONFR);
 }
 
 void App::CheckoutFriend() const

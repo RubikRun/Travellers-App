@@ -81,23 +81,26 @@ class Core
     //Returns a list of all the grades received by users for this destination
     const std::vector<UserGrade>& GetUsersGrades(const str& dest) const;
 
-    //Checks if the user with this username is a friend of the current user
-    bool IsFrToCurr(const str& username) const;
+    //Checks if two users are friends
+    bool AreFr(const str& user1, const str& user2) const;
 
-    //Checks if the current user has a friend request from the user with this username
-    bool CurrHasFrReqFrom(const str& username) const;
+    //Checks if a user has a friend request from another user
+    bool HasFrReqFrom(const str& user1, const str& user2) const;
 
-    //The current user sends a friend request to the user with this username
-    void CurrSendFrReqTo(const str& username) const;
+    //Sends a friend request from one user to another
+    void SendFrReq(const str& user1, const str& user2);
 
-    //The current user confirms the friend request he received from the user with this username
-    void CurrConfirmFrReqFrom(const str& username) const;
+    //Unsends a friend request from one user to anoter
+    void UnsendFrReq(const str& user1, const str& user2);
 
-    //The current user removes from friends the user with this username
-    void CurrRmFr(const str& username) const;
+    //Confirms a friend request from the second user to the first one
+    void ConfirmFrReq(const str& user1, const str& user2);
 
-    //The current user declines the friend request he received from the user with this username
-    void CurrDeclineFrReqFrom(const str& username) const;
+    //Declines a friend request from the second user to the first one
+    void DeclineFrReq(const str& user1, const str& user2);
+
+    //Unfriends the two users
+    void RmFr(const str& user1, const str& user2);
 
     //Returns a list of the trips of the user with this username
     void GetTripsOf(const str& username) const;

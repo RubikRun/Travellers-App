@@ -55,6 +55,12 @@ namespace nMsg
         const str WHEN_LOGGED_IN = "TODO";
         const str WHEN_NOT_LOGGED_IN = "TODO";
         const str PASSWORD_NOT_MATCHING = "TODO";
+        const str ADDFRIEND_SELF = "TODO";
+        const str ADDFRIEND_FR = "TODO";
+        const str ADDFRIEND_FRREQ = "TODO";
+        const str RMFRIEND_SELF = "TODO";
+        const str RMFRIEND_NONFR = "TODO";
+        const str RMFRIEND_NONFR = "TODO";
     }
 
     namespace nNotExist
@@ -78,6 +84,11 @@ namespace nMsg
         const str LOGIN = "TODO";
         const str LOGOUT = "TODO";
         const str ADDTRIP = "TODO";
+        const str FRREQ_SENT = "TODO";
+        const str FRREQ_CONFIRMED = "TODO";
+        const str RMFRIEND_FR = "TODO";
+        const str FRREQ_DECLINED = "TODO";
+        const str FRREQ_UNSENT = "TODO";
     }
 
     namespace nList
