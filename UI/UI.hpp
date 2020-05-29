@@ -21,7 +21,7 @@ namespace nUI
         const std::function<bool(const str&)>& IsValid2 = [](const str&){return true;}, const str& invalidMsg2 = "");
 
     //Prints a message to the user
-    void PrintMsg(const str& msg);
+    void PrintMsg(const str& msg, const str& begin = "", const str& end = "\n\n");
 
     //Prints a vector of strings to the user
     void PrintVec(const std::vector<str>& vec, const str& beginMsg = "", const str& endMsg = "");

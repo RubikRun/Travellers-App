@@ -1,5 +1,67 @@
 #include "UI.hpp"
 
+#include <iostream>
+
+str nUI::ReadCommand(const str& beginMsg = "", const str& endMsg = "")
+{
+    str command;
+
+    nUI::PrintMsg(beginMsg, "", "");
+    std::getline(std::cin, command);
+    nUI::PrintMsg(endMsg, "", "");
+
+    return command;
+}
+
+str nUI::ReadValidInput(const str& enterMsg,
+    const std::function<bool(const str&)>& IsValid1 = [](const str&){return true;}, const str& invalidMsg1 = "",
+    const std::function<bool(const str&)>& IsValid2 = [](const str&){return true;}, const str& invalidMsg2 = "")
+{
+    str input;
+
+    bool valid1, valid2;
+    do
+    {
+        nUI::PrintMsg(enterMsg, "", "");
+        std::getline(std::cin, input);
+
+        valid1 = IsValid1(input);
+        if (!valid1)
+        {
+            nUI::nError::PrintMsg(invalidMsg1);
+        }
+        valid2 = IsValid2(input);
+        if (!valid2)
+        {
+            nUI::nError::PrintMsg(invalidMsg2);
+        }
+    } while (!valid1 || !valid2);
+
+    return input;
+}
+
+void nUI::PrintMsg(const str& msg, const str& begin, const str& end)
+{
+    std::cout << begin << msg << end;
+}
+
+void nUI::PrintVec(const std::vector<str>& vec, const str& beginMsg = "", const str& endMsg = "")
+{
+    nUI::PrintMsg(beginMsg);
+
+    for (int i = 0; i < vec.size(); i++)
+    {
+        std::cout << i + 1 << ". " << vec[i] << std::endl;
+    }
+
+    nUI::PrintMsg(endMsg);
+}
+
+void nUI::nError::PrintMsg(const str& msg)
+{
+    nUI::PrintMsg(msg, "Error: ");
+}
+
 str nUI::ReadValidUniqueUsername(const Core* core)
 {
     return ReadValidInput(nMsg::nInput::USERNAME, nInputValidator::Username, nMsg::nInvalid::USERNAME,
@@ -156,6 +218,61 @@ bool nInputValidator::Photo(const str& s)
         {
             return false;
         }
+    }
+
+    return true;
+}
+
+std::vector<str> nString::Split(const str& s, const char delimeter = ' ')
+{
+    std::vector<str> parts;
+
+    int lastBegin = 0;
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (s[i] == delimeter)
+        {
+            str currPart = s.substr(lastBegin, i - lastBegin);
+            parts.push_back(currPart);
+            lastBegin = i + 1;
+        }
+    }
+    if (lastBegin < s.length())
+    {
+        str lastPart = s.substr(lastBegin);
+        parts.push_back(lastPart);
+    }
+
+    return parts;
+}
+
+bool nString::StrIsInt(const str& s)
+{
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (!std::isdigit(s[i]) && 
+            !(i == 0 && (s[i] == '+' || s[i] == '-')))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool nString::EndsWith(const str& s, const str& suffix)
+{
+    if (suffix.length() > s.length())
+        return false;
+
+    int j = s.length() - suffix.length();
+    for (int i = 0; i < suffix.length(); i++)
+    {
+        if (suffix[i] != s[j])
+        {
+            return false;
+        }
+        j++;
     }
 
     return true;
