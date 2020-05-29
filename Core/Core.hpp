@@ -136,4 +136,7 @@ class Core
 
     //Writes friendships to a database
     void WriteFriendships(std::ofstream& db) const;
+
+    //Finds the user with this username, returns its index
+    int FindUser(const str& username) const;
 };

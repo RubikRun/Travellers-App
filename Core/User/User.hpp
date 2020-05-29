@@ -44,7 +44,8 @@ class User : public Serializable
     const std::vector<Trip>& GetTrips() const;
 
     //Adds a new trip to user's trips
-    void AddTrip(const Trip&);
+    void AddTrip(const str& dest, const Date& begin, const Date& end,
+        int grade, const str& comment, const std::vector<str>& photos);
 
     //Serializes the user
     str Serialize() const;

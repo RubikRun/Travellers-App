@@ -43,6 +43,11 @@ namespace nFile
     const str CANNOT_CLOSE = "TODO";
 }
 
+namespace nUser
+{
+    const int NULL_IND = -1;
+}
+
 void Core::Load()
 {
     this->LoadUsers(nDatabase::USERS);
@@ -53,6 +58,87 @@ void Core::Save()
 {
     this->SaveUsers(nDatabase::USERS);
     this->SaveDests(nDatabase::DESTS);
+}
+
+void Core::AddUser(const str& username, const str& password, const str& email)
+{
+    m_users.emplace_back(username, password, email);
+}
+
+bool Core::UsernameExists(const str& username) const
+{
+    return (this->FindUser(username) != nUser::NULL_IND);
+}
+
+bool Core::EmailExists(const str& email) const
+{
+    for (int i = 0; i < m_users.size(); i++)
+        if (m_users[i].GetEmail() == email)
+            return true;
+    return false;
+}
+
+bool Core::DestExists(const str& dest) const
+{
+    for (auto it = m_destUserGrades.begin(); it != m_destUserGrades.end(); it++)
+        if (it->first == dest)
+            return true;
+    return false;
+}
+
+bool Core::UserPasswordMatch(const str& username, const str& password) const
+{
+    int userInd = this->FindUser(username);
+    if (userInd == nUser::NULL_IND)
+        return false;
+
+    return m_users[userInd].PasswordsMatch(password);
+}
+
+bool Core::IsThereCurrUser() const
+{
+    return (m_currUserInd != nUser::NULL_IND);
+}
+
+void Core::SetCurrUser(const str& username)
+{
+    m_currUserInd = this->FindUser(username);
+}
+
+const str& Core::GetCurrUser() const
+{
+    return m_users[m_currUserInd].GetUsername();
+}
+
+void Core::LogOutCurrUser()
+{
+    m_currUserInd = nUser::NULL_IND;
+}
+
+void Core::CurrUserAddTrip(const str& dest, const Date& begin, const Date& end,
+        int grade, const str& comment, const std::vector<str>& photos)
+{
+    if (m_currUserInd == nUser::NULL_IND)
+        return;
+
+    m_users[m_currUserInd].AddTrip(dest, begin, end, grade, comment, photos);
+}
+
+std::vector<str> Core::GetDests() const
+{
+    std::vector<str> dests;
+    for (auto it = m_destUserGrades.begin(); it != m_destUserGrades.end(); it++)
+    {
+        str dest = it->first;
+        dests.push_back(dest);
+    }
+    
+    return dests;
+}
+
+const std::vector<UserGrade>& Core::GetUsersGrades(const str& dest) const
+{
+    return m_destUserGrades.at(dest);
 }
 
 void Core::LoadUsers(const str& dbName)
@@ -197,4 +283,16 @@ void Core::WriteFriendships(std::ofstream& db) const
             nDatabaseIO::WriteInt(*fr, db);
         }
     }
+}
+
+int Core::FindUser(const str& username) const
+{
+    for (int i = 0; i < m_users.size(); i++)
+    {
+        if (m_users[i].GetUsername() == username)
+        {
+            return i;
+        }
+    }
+    return nUser::NULL_IND;
 }
