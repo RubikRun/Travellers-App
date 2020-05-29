@@ -12,9 +12,9 @@
 #include <string>
 typedef std::string str;
 
-//A pair of a user's index and a grade,
+//A pair of a user (their username) and a grade
 //indicating that the user gave this grade
-struct UserGrade { int userInd, grade; };
+struct UserGrade { str username; int grade; };
 
 //A pair of users' indecies
 struct UsersPair { int firstInd, secondInd;};

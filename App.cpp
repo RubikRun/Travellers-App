@@ -17,45 +17,6 @@ if (!m_core.IsThereCurrUser()) { \
     return; \
 }
 
-namespace nCommand
-{
-    const str EXIT = "TODO";
-    const str HELP = "TODO";
-    const str REGISTER = "TODO";
-    const str LOGIN = "TODO";
-    const str LOGOUT = "TODO";
-    const str ADDTRIP = "TODO";
-    const str LISTDESTS = "TODO";
-    const str CHECKOUTDEST = "TODO";
-    const str ADDFRIEND = "TODO";
-    const str REMOVEFRIEND = "TODO";
-    const str CHECKOUTFRIEND = "TODO";
-}
-
-//Validation functions
-namespace nInputValidator
-{
-    bool Username(const str&);
-    bool Password(const str&);
-    bool Email(const str&);
-    bool DateStr(const str&);
-    bool GradeStr(const str&);
-    bool PhotosCountStr(const str&);
-    bool Photo(const str&);
-}
-
-//Reads valid begin and end dates
-void ReadBeginEndDate(Date& begin, Date& end);
-
-//Reads valid photos
-void ReadPhotos(std::vector<str>& photos);
-
-//Prints a list of grades
-void PrintUsersGrades(const std::vector<UserGrade>& usersGrades);
-
-//Prints a list of trips
-void PrintTrips(const std::vector<Trip>& trips);
-
 App::App()
 {
     //Load the core
@@ -107,15 +68,13 @@ void App::Register()
     DONT_ALLOW_LOGGED_IN
 
     //Read a valid and unique username
-    str username = nUI::ReadValidInput(nMsg::nInput::USERNAME, nInputValidator::Username, nMsg::nInvalid::USERNAME,
-        [this](const str& u) { return !this->m_core.UsernameExists(u); }, nMsg::nDuplicate::USERNAME);
+    str username = nUI::ReadValidUniqueUsername(&m_core);
 
     //Read a valid password
-    str password = nUI::ReadValidInput(nMsg::nInput::PASSWORD, nInputValidator::Password, nMsg::nInvalid::PASSWORD);
+    str password = nUI::ReadValidPassword();
 
     //Read a valid and unique email
-    str email = nUI::ReadValidInput(nMsg::nInput::EMAIL, nInputValidator::Email, nMsg::nInvalid::EMAIL,
-        [this](const str& e) { return !this->m_core.EmailExists(e); }, nMsg::nDuplicate::EMAIL);
+    str email = nUI::ReadValidUniqueEmail(&m_core);
 
     //Add user to core
     m_core.AddUser(username, password, email);
@@ -128,13 +87,10 @@ void App::LogIn()
     DONT_ALLOW_LOGGED_IN
 
     //Read a username of an existing user
-    str username = nUI::ReadValidInput(nMsg::nInput::USERNAME,
-        [this](const str& u) { return this->m_core.UsernameExists(u); }, nMsg::nNotExist::USERNAME);
+    str username = nUI::ReadExistingUsername(&m_core);
 
     //Read a matching password
-    str password = nUI::ReadValidInput(nMsg::nInput::PASSWORD,
-        [this, &username](const str& p) { return this->m_core.UserPasswordMatch(username, p); },
-        nMsg::nNotAllow::PASSWORD_NOT_MATCHING);
+    nUI::ReadMatchingPassword(&m_core, username);
 
     //Log in the user
     m_core.SetCurrUser(username);
@@ -160,18 +116,17 @@ void App::AddTrip()
     ALLOW_ONLY_LOGGED_IN
 
     //Read a destination
-    str dest = nUI::ReadValidInput(nMsg::nInput::DEST);
+    str dest = nUI::ReadDest();
     //Read valid begin and end dates
     Date begin, end;
-    ReadBeginEndDate(begin, end);
+    nUI::ReadBeginEndDate(begin, end);
     //Read a valid grade
-    str gradeStr = nUI::ReadValidInput(nMsg::nInput::GRADE, nInputValidator::GradeStr, nMsg::nInvalid::GRADE);
-    int grade = std::stoi(gradeStr);
+    int grade = nUI::ReadValidGrade();
     //Read a comment
-    str comment = nUI::ReadValidInput(nMsg::nInput::COMMENT);
+    str comment = nUI::ReadComment();
     //Read valid photos
     std::vector<str> photos;
-    ReadPhotos(photos);
+    nUI::ReadPhotos(photos);
 
     //Add the trip to current user's trips
     m_core.CurrUserAddTrip(dest, begin, end, grade, comment, photos);
@@ -201,7 +156,7 @@ void App::CheckoutDest()
     const std::vector<UserGrade> usersGrades = m_core.GetUsersGrades(dest);
 
     //Print grades
-    PrintUsersGrades(usersGrades);
+    nUI::PrintUsersGrades(usersGrades);
 }
 
 void App::AddFriend()
@@ -209,8 +164,7 @@ void App::AddFriend()
     ALLOW_ONLY_LOGGED_IN
 
     //Read a username of an existing user
-    str fr = nUI::ReadValidInput(nMsg::nInput::USERNAME,
-        [this](const str& u) { return this->m_core.UsernameExists(u); }, nMsg::nNotExist::USERNAME);
+    str fr = nUI::ReadExistingUsername(&m_core);
 
     str currUser = m_core.GetCurrUser();
 
@@ -240,8 +194,7 @@ void App::RemoveFriend()
     ALLOW_ONLY_LOGGED_IN
 
     //Read a username of an existing user
-    str fr = nUI::ReadValidInput(nMsg::nInput::USERNAME,
-        [this](const str& u) { return this->m_core.UsernameExists(u); }, nMsg::nNotExist::USERNAME);
+    str fr = nUI::ReadExistingUsername(&m_core);
 
     str currUser = m_core.GetCurrUser();
 
@@ -272,8 +225,7 @@ void App::CheckoutFriend() const
     ALLOW_ONLY_LOGGED_IN
 
     //Read a username of an existing user
-    str fr = nUI::ReadValidInput(nMsg::nInput::USERNAME,
-        [this](const str& u) { return this->m_core.UsernameExists(u); }, nMsg::nNotExist::USERNAME);
+    str fr = nUI::ReadExistingUsername(&m_core);
 
     str currUser = m_core.GetCurrUser();
 
@@ -286,5 +238,5 @@ void App::CheckoutFriend() const
 
     //Print friend's trips
     const std::vector<Trip>& trips = m_core.GetUserTrips(fr);
-    PrintTrips(trips);
+    nUI::PrintTrips(trips);
 }

@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "../Core/Core.hpp"
+
+#include <vector>
 #include <string>
 #include <functional>
 typedef std::string str;
@@ -28,6 +31,75 @@ namespace nUI
         //Prints an error message to the user
         void PrintMsg(const str& msg);
     }
+
+    //Reads a valid and unique username
+    str ReadValidUniqueUsername(const Core*);
+
+    //Reads a valid password
+    str ReadValidPassword();
+
+    //Reads a valid and unique email
+    str ReadValidUniqueEmail(const Core*);
+
+    //Reads a username of an existing user
+    str ReadExistingUsername(const Core*);
+
+    //Reads a password until user's password is entered
+    str ReadMatchingPassword(const Core*, const str& username);
+
+    //Reads a destination
+    str ReadDest();
+
+    //Reads valid begin and end dates
+    void ReadBeginEndDate(Date& begin, Date& end);
+
+    //Reads a valid grade
+    int ReadValidGrade();
+
+    //Reads a comment
+    str ReadComment();
+
+    //Reads valid photos
+    void ReadPhotos(std::vector<str>& photos);
+
+    //Prints a list of grades
+    void PrintUsersGrades(const std::vector<UserGrade>& usersGrades);
+
+    //Prints a list of trips
+    void PrintTrips(const std::vector<Trip>& trips);
+}
+
+namespace nCommand
+{
+    const str EXIT = "TODO";
+    const str HELP = "TODO";
+    const str REGISTER = "TODO";
+    const str LOGIN = "TODO";
+    const str LOGOUT = "TODO";
+    const str ADDTRIP = "TODO";
+    const str LISTDESTS = "TODO";
+    const str CHECKOUTDEST = "TODO";
+    const str ADDFRIEND = "TODO";
+    const str REMOVEFRIEND = "TODO";
+    const str CHECKOUTFRIEND = "TODO";
+}
+
+//Validation functions
+namespace nInputValidator
+{
+    bool Username(const str&);
+    bool Password(const str&);
+    bool Email(const str&);
+    bool DateStr(const str&);
+    bool GradeStr(const str&);
+    bool PhotosCountStr(const str&);
+    bool Photo(const str&);
+}
+
+namespace nString
+{
+    
+    std::vector<str> Split(const str&, const char delimeter = ' ');
 }
 
 namespace nMsg
@@ -42,6 +114,8 @@ namespace nMsg
         const str PASSWORD = "TODO";
         const str EMAIL = "TODO";
         const str GRADE = "TODO";
+        const str DATE = "TODO";
+        const str PHOTOS = "TODO";
     }
 
     namespace nDuplicate
@@ -61,6 +135,7 @@ namespace nMsg
         const str RMFRIEND_SELF = "TODO";
         const str RMFRIEND_NONFR = "TODO";
         const str CHECKOUTFR_NONFR = "TODO";
+        const str END_BEFORE_BEGIN_DATE = "TODO";
     }
 
     namespace nNotExist
@@ -76,6 +151,9 @@ namespace nMsg
         const str DEST = "TODO";
         const str GRADE = "TODO";
         const str COMMENT = "TODO";
+        const str BEGIN_DATE = "TODO";
+        const str END_DATE = "TODO";
+        const str PHOTOS = "TODO";
     }
 
     namespace nSuccess
@@ -94,5 +172,7 @@ namespace nMsg
     namespace nList
     {
         const str DESTS = "TODO";
+        const str GRADES = "TODO";
+        const str TRIPS = "TODO";
     }
 }

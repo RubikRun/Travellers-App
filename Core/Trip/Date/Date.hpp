@@ -36,4 +36,7 @@ class Date : public Serializable, public Printable
 
     //Prints the date to the user
     void Print() const;
+
+    //Converts a string to a date
+    static Date FromStr(const str&);
 };
