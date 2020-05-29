@@ -1,19 +1,16 @@
 #include "UI.hpp"
 
-//Reads a valid and unique username
 str nUI::ReadValidUniqueUsername(const Core* core)
 {
     return ReadValidInput(nMsg::nInput::USERNAME, nInputValidator::Username, nMsg::nInvalid::USERNAME,
         [core](const str& u) { return !core->UsernameExists(u); }, nMsg::nDuplicate::USERNAME);
 }
 
-//Reads a valid password
 str nUI::ReadValidPassword()
 {
     return ReadValidInput(nMsg::nInput::PASSWORD, nInputValidator::Password, nMsg::nInvalid::PASSWORD);
 }
 
-//Reads a valid and unique email
 str nUI::ReadValidUniqueEmail(const Core* core)
 {
     return ReadValidInput(nMsg::nInput::EMAIL, nInputValidator::Email, nMsg::nInvalid::EMAIL,
@@ -101,37 +98,65 @@ void nUI::PrintTrips(const std::vector<Trip>& trips)
     }
 }
 
-bool nInputValidator::Username(const str&)
+bool nInputValidator::Username(const str& s)
 {
-    //TODO
+    return (s.length() >= nUsername::MIN_LEN && s.length() <= nUsername::MAX_LEN
+        && s.find(' ') == str::npos);
 }
 
-bool nInputValidator::Password(const str&)
+bool nInputValidator::Password(const str& s)
 {
-    //TODO
+    if (s.length() < nPassword::MIN_LEN || s.length() > nPassword::MAX_LEN)
+        return false;
+
+    bool letter = false, digit = false;
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (std::isalpha(s[i])) letter = true;
+        if (std::isdigit(s[i])) digit = true;
+    }
+
+    return (letter && digit);
 }
 
-bool nInputValidator::Email(const str&)
+bool nInputValidator::Email(const str& s)
 {
-    //TODO
+    if (s.length() < nEmail::MIN_LEN || s.length() > nEmail::MAX_LEN)
+        return false;
+
+    int iAt = s.find(nEmail::AT);
+    int iDot = s.rfind(nEmail::DOT);
+
+    return (iAt >= nEmail::AT_DIFF && (iDot - iAt) >= nEmail::AT_DOT_DIFF
+        && (s.length() - 1 - iDot) >= nEmail::DOT_DIFF);
 }
 
-bool nInputValidator::DateStr(const str&)
+bool nInputValidator::DateStr(const str& s)
 {
-    //TODO
+    return Date::IsStrDate(s);
 }
 
-bool nInputValidator::GradeStr(const str&)
+bool nInputValidator::GradeStr(const str& s)
 {
-    //TODO
+    if (!nString::StrIsInt(s)) return false;
+
+    int grade = std::stoi(s);
+    return (grade >= nGrade::MIN && grade <= nGrade::MAX);
 }
 
-bool nInputValidator::PhotosCountStr(const str&)
+bool nInputValidator::Photo(const str& s)
 {
-    //TODO
-}
+    if (!nString::EndsWith(s, nPhoto::JPEG_EXT)
+        || !nString::EndsWith(s, nPhoto::PNG_EXT))
+            return false;
 
-bool nInputValidator::Photo(const str&)
-{
-    //TODO
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (!std::isalpha(s[i]))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }

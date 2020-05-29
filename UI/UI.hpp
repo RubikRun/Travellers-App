@@ -69,6 +69,29 @@ namespace nUI
     void PrintTrips(const std::vector<Trip>& trips);
 }
 
+//Input validation functions
+namespace nInputValidator
+{
+    bool Username(const str&);
+    bool Password(const str&);
+    bool Email(const str&);
+    bool DateStr(const str&);
+    bool GradeStr(const str&);
+    bool Photo(const str&);
+}
+
+namespace nString
+{
+    //Splits a string on a given delimeter, returns a vector of the resulting parts
+    std::vector<str> Split(const str&, const char delimeter = ' ');
+
+    //Checks if a string represents an int
+    bool StrIsInt(const str&);
+
+    //Checks if a string ends with a given suffix
+    bool EndsWith(const str&, const str& suffix);
+}
+
 namespace nCommand
 {
     const str EXIT = "TODO";
@@ -82,24 +105,6 @@ namespace nCommand
     const str ADDFRIEND = "TODO";
     const str REMOVEFRIEND = "TODO";
     const str CHECKOUTFRIEND = "TODO";
-}
-
-//Validation functions
-namespace nInputValidator
-{
-    bool Username(const str&);
-    bool Password(const str&);
-    bool Email(const str&);
-    bool DateStr(const str&);
-    bool GradeStr(const str&);
-    bool PhotosCountStr(const str&);
-    bool Photo(const str&);
-}
-
-namespace nString
-{
-    
-    std::vector<str> Split(const str&, const char delimeter = ' ');
 }
 
 namespace nMsg
@@ -175,4 +180,40 @@ namespace nMsg
         const str GRADES = "TODO";
         const str TRIPS = "TODO";
     }
+}
+
+namespace nUsername
+{
+    const int MIN_LEN = 3;
+    const int MAX_LEN = 30;
+}
+
+namespace nPassword
+{
+    const int MIN_LEN = 8;
+    const int MAX_LEN = 40;
+}
+
+namespace nEmail
+{
+    const char AT = '@';
+    const char DOT = '.';
+    const int AT_DIFF = 2;
+    const int AT_DOT_DIFF = 2;
+    const int DOT_DIFF = 2;
+    
+    const int MIN_LEN = AT_DIFF + 1 + AT_DOT_DIFF + 1 + DOT_DIFF;
+    const int MAX_LEN = 40;
+}
+
+namespace nGrade
+{
+    const int MIN = 1;
+    const int MAX = 5;
+}
+
+namespace nPhoto
+{
+    const str JPEG_EXT = ".jpeg";
+    const str PNG_EXT = ".png";
 }

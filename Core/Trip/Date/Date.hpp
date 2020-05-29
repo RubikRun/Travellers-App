@@ -39,4 +39,7 @@ class Date : public Serializable, public Printable
 
     //Converts a string to a date
     static Date FromStr(const str&);
+
+    //Checks if a string represents a date (can be converted to a date)
+    static bool IsStrDate(const str&);
 };
