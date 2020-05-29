@@ -103,7 +103,7 @@ class Core
     void RmFr(const str& user1, const str& user2);
 
     //Returns a list of the trips of the user with this username
-    void GetTripsOf(const str& username) const;
+    const std::vector<Trip>& GetUserTrips(const str& username) const;
 
     //Returns a string with the current user's notifications
     str GetCurrUserNotifs() const;

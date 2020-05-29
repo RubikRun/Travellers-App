@@ -60,7 +60,7 @@ namespace nMsg
         const str ADDFRIEND_FRREQ = "TODO";
         const str RMFRIEND_SELF = "TODO";
         const str RMFRIEND_NONFR = "TODO";
-        const str RMFRIEND_NONFR = "TODO";
+        const str CHECKOUTFR_NONFR = "TODO";
     }
 
     namespace nNotExist

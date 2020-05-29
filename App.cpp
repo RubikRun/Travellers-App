@@ -53,6 +53,9 @@ void ReadPhotos(std::vector<str>& photos);
 //Prints a list of grades
 void PrintUsersGrades(const std::vector<UserGrade>& usersGrades);
 
+//Prints a list of trips
+void PrintTrips(const std::vector<Trip>& trips);
+
 App::App()
 {
     //Load the core
@@ -266,5 +269,22 @@ void App::RemoveFriend()
 
 void App::CheckoutFriend() const
 {
-    //TODO
+    ALLOW_ONLY_LOGGED_IN
+
+    //Read a username of an existing user
+    str fr = nUI::ReadValidInput(nMsg::nInput::USERNAME,
+        [this](const str& u) { return this->m_core.UsernameExists(u); }, nMsg::nNotExist::USERNAME);
+
+    str currUser = m_core.GetCurrUser();
+
+    //Don't allow checking out of a non-friend
+    if (!m_core.AreFr(currUser, fr))
+    {
+        nUI::nError::PrintMsg(nMsg::nNotAllow::CHECKOUTFR_NONFR);
+        return;
+    }
+
+    //Print friend's trips
+    const std::vector<Trip>& trips = m_core.GetUserTrips(fr);
+    PrintTrips(trips);
 }
