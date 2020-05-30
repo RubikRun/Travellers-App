@@ -180,6 +180,11 @@ namespace nMsg
         const str GRADES = "TODO";
         const str TRIPS = "TODO";
     }
+
+    namespace nNotif
+    {
+        const str FRREQS = "TODO";
+    }
 }
 
 namespace nUsername

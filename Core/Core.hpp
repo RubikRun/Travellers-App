@@ -108,8 +108,8 @@ class Core
     //Returns a list of the trips of the user with this username
     const std::vector<Trip>& GetUserTrips(const str& username) const;
 
-    //Returns a string with the current user's notifications
-    str GetCurrUserNotifs() const;
+    //Returns a list of friend requests that the current user has (list of usernames)
+    std::vector<str> GetCurrUserFrReqs() const;
 
   private:
 

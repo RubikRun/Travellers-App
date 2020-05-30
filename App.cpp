@@ -100,7 +100,7 @@ void App::LogIn()
     nUI::PrintMsg(nMsg::nSuccess::LOGIN);
 
     //Show user's notifications
-    nUI::PrintMsg(m_core.GetCurrUserNotifs());
+    this->ShowCurrUserNotifs();
 }
 
 void App::LogOut()
@@ -241,4 +241,11 @@ void App::CheckoutFriend() const
     //Print friend's trips
     const std::vector<Trip>& trips = m_core.GetUserTrips(fr);
     nUI::PrintTrips(trips);
+}
+
+void App::ShowCurrUserNotifs() const
+{
+    std::vector<str> frReqs = m_core.GetCurrUserFrReqs();
+
+    nUI::PrintVec(frReqs, nMsg::nNotif::FRREQS);
 }

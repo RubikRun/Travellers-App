@@ -59,4 +59,9 @@ class App
 
     //Lists the trips of a friend
     void CheckoutFriend() const;
+
+  private:
+
+    //Shows a the current user's notifications
+    void ShowCurrUserNotifs() const;
 };

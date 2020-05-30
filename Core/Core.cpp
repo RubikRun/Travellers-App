@@ -215,6 +215,34 @@ void Core::RmFr(const str& username1, const str& username2)
     m_friends[user2].erase(user1);
 }
 
+const std::vector<Trip>& Core::GetUserTrips(const str& username) const
+{
+    int userInd = this->FindUser(username);
+
+    return m_users[userInd].GetTrips();
+}
+
+std::vector<str> Core::GetCurrUserFrReqs() const
+{
+    if (m_currUserInd == nUser::NULL_IND)
+        return std::vector<str>();
+
+    std::vector<str> frReqs;
+
+    for (auto it = m_friends.begin(); it != m_friends.end(); it++)
+    {
+        int otherUser = it->first;
+        if (m_friends.at(otherUser).count(m_currUserInd) == 1
+            && m_friends.at(m_currUserInd).count(otherUser) == 0)
+        {
+            str otherUserUsername = m_users[otherUser].GetUsername();
+            frReqs.push_back(otherUserUsername);
+        }
+    }
+
+    return frReqs;
+}
+
 void Core::LoadUsers(const str& dbName)
 {
     OPEN_IFILE(db, dbName, nFile::CANNOT_OPEN + dbName, return)
