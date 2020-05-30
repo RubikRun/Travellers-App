@@ -141,6 +141,80 @@ const std::vector<UserGrade>& Core::GetUsersGrades(const str& dest) const
     return m_destUserGrades.at(dest);
 }
 
+bool Core::AreFr(const str& username1, const str& username2) const
+{
+    int user1 = this->FindUser(username1);
+    int user2 = this->FindUser(username2);
+    if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
+        return false;
+    
+    return (m_friends.at(user1).count(user2) == 1 && m_friends.at(user2).count(user1) == 1);
+}
+
+bool Core::HasFrReqFrom(const str& username1, const str& username2) const
+{
+    int user1 = this->FindUser(username1);
+    int user2 = this->FindUser(username2);
+    if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
+        return false;
+
+    return (m_friends.at(user1).count(user2) == 0 && m_friends.at(user2).count(user1) == 1);
+}
+
+void Core::SendFrReq(const str& username1, const str& username2)
+{
+    int user1 = this->FindUser(username1);
+    int user2 = this->FindUser(username2);
+    if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
+        return;
+
+    m_friends[user1].insert(user2);
+}
+
+void Core::UnsendFrReq(const str& username1, const str& username2)
+{
+    int user1 = this->FindUser(username1);
+    int user2 = this->FindUser(username2);
+    if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
+        return;
+
+    m_friends[user1].erase(user2);
+}
+
+void Core::ConfirmFrReq(const str& username1, const str& username2)
+{
+    int user1 = this->FindUser(username1);
+    int user2 = this->FindUser(username2);
+    if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
+        return;
+
+    if (m_friends[user2].count(user1) == 0)
+        return;
+
+    m_friends[user1].insert(user2);
+}
+
+void Core::DeclineFrReq(const str& username1, const str& username2)
+{
+    int user1 = this->FindUser(username1);
+    int user2 = this->FindUser(username2);
+    if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
+        return;
+
+    m_friends[user2].erase(user1);
+}
+
+void Core::RmFr(const str& username1, const str& username2)
+{
+    int user1 = this->FindUser(username1);
+    int user2 = this->FindUser(username2);
+    if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
+        return;
+
+    m_friends[user1].erase(user2);
+    m_friends[user2].erase(user1);
+}
+
 void Core::LoadUsers(const str& dbName)
 {
     OPEN_IFILE(db, dbName, nFile::CANNOT_OPEN + dbName, return)
