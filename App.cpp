@@ -246,6 +246,8 @@ void App::CheckoutFriend() const
 void App::ShowCurrUserNotifs() const
 {
     std::vector<str> frReqs = m_core.GetCurrUserFrReqs();
+    if (frReqs.size() == 0)
+        return;
 
     nUI::PrintVec(frReqs, nMsg::nNotif::FRREQS);
 }

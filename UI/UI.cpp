@@ -102,11 +102,11 @@ void nUI::ReadBeginEndDate(Date& begin, Date& end)
     str beginStr, endStr;
 
     //Reads a valid begin date
-    nUI::ReadValidInput(nMsg::nInput::BEGIN_DATE, nInputValidator::DateStr, nMsg::nInvalid::DATE);
+    beginStr = nUI::ReadValidInput(nMsg::nInput::BEGIN_DATE, nInputValidator::DateStr, nMsg::nInvalid::DATE);
     begin = Date::FromStr(beginStr);
 
     //Reads a valid end date that is after the begin date
-    nUI::ReadValidInput(nMsg::nInput::END_DATE, nInputValidator::DateStr, nMsg::nInvalid::DATE,
+    endStr = nUI::ReadValidInput(nMsg::nInput::END_DATE, nInputValidator::DateStr, nMsg::nInvalid::DATE,
         [&begin](const str& s) { return begin <= Date::FromStr(s); }, nMsg::nNotAllow::END_BEFORE_BEGIN_DATE);
     end = Date::FromStr(endStr);
 }

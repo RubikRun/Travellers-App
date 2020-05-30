@@ -30,7 +30,7 @@ if (file.is_open()) { \
 
 namespace nDatabase
 {
-    const str DIR = "Database/";
+    const str DIR = "Core/Database/dbFiles/";
     const str EXT = ".db";
 
     const str USERS = DIR + "users" + EXT;
@@ -39,8 +39,8 @@ namespace nDatabase
 
 namespace nFile
 {
-    const str CANNOT_OPEN = "TODO";
-    const str CANNOT_CLOSE = "TODO";
+    const str CANNOT_OPEN = "Cannot open file: ";
+    const str CANNOT_CLOSE = "Cannot close file: ";
 }
 
 namespace nUser
