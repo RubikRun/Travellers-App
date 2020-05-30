@@ -131,6 +131,12 @@ void Core::CurrUserAddTrip(const str& dest, const Date& begin, const Date& end,
         return;
 
     m_users[m_currUserInd].AddTrip(dest, begin, end, grade, comment, photos);
+
+    //If the destination is new, initialize the vector for its grades
+    if (m_destUserGrades.find(dest) == m_destUserGrades.end())
+        m_destUserGrades[dest] = std::vector<UserGrade>();
+
+    m_destUserGrades[dest].push_back( {this->GetCurrUser(), grade} );
 }
 
 std::vector<str> Core::GetDests() const

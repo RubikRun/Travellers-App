@@ -97,6 +97,12 @@ str nUI::ReadDest()
     return ReadValidInput(nMsg::nInput::DEST);
 }
 
+str nUI::ReadExistingDest(const Core* core)
+{
+    return ReadValidInput(nMsg::nInput::DEST,
+    [core](const str& d) { return core->DestExists(d); }, nMsg::nNotExist::DEST);
+}
+
 void nUI::ReadBeginEndDate(Date& begin, Date& end)
 {
     str beginStr, endStr;
@@ -209,13 +215,23 @@ bool nInputValidator::GradeStr(const str& s)
 
 bool nInputValidator::Photo(const str& s)
 {
-    if (!nString::EndsWith(s, nPhoto::JPEG_EXT)
-        || !nString::EndsWith(s, nPhoto::PNG_EXT))
-            return false;
-
-    for (int i = 0; i < s.length(); i++)
+    int filenameEnd = -1;
+    if (nString::EndsWith(s, nPhoto::JPEG_EXT))
     {
-        if (!std::isalpha(s[i]))
+        filenameEnd = s.length() - nPhoto::JPEG_EXT.length();
+    }
+    else if (nString::EndsWith(s, nPhoto::PNG_EXT))
+    {
+        filenameEnd = s.length() - nPhoto::PNG_EXT.length();
+    }
+    else
+    {
+        return false;
+    }
+
+    for (int i = 0; i < filenameEnd; i++)
+    {
+        if (!std::isalpha(s[i]) && s[i] != '_')
         {
             return false;
         }

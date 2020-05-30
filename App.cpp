@@ -152,10 +152,10 @@ void App::CheckoutDest()
     ALLOW_ONLY_LOGGED_IN
 
     //Read a destination
-    str dest = nUI::ReadValidInput(nMsg::nInput::DEST);
+    str dest = nUI::ReadExistingDest(&m_core);
 
     //Get the grades of that destination
-    const std::vector<UserGrade> usersGrades = m_core.GetUsersGrades(dest);
+    const std::vector<UserGrade>& usersGrades = m_core.GetUsersGrades(dest);
 
     //Print grades
     nUI::PrintUsersGrades(usersGrades);

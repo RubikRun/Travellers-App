@@ -50,6 +50,9 @@ namespace nUI
     //Reads a destination
     str ReadDest();
 
+    //Reads an existing destination
+    str ReadExistingDest(const Core*);
+
     //Reads valid begin and end dates
     void ReadBeginEndDate(Date& begin, Date& end);
 
@@ -227,7 +230,8 @@ namespace nMsg
 
     namespace nNotExist
     {
-        const str USERNAME = "There is no user with this username";
+        const str USERNAME = "There is no user with this username.";
+        const str DEST = "There is no destination with this name.";
     }
 
     namespace nInput
