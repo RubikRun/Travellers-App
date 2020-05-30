@@ -32,7 +32,6 @@ void User::AddTrip(const str& dest, const Date& begin, const Date& end,
     m_trips.emplace_back(dest, begin, end, grade, comment, photos);
 }
 
-
 void User::SerializeTo(std::ostream& stream) const
 {
     stream << m_username << nDatabaseIO::DELIMETER
@@ -42,11 +41,20 @@ void User::SerializeTo(std::ostream& stream) const
     stream << m_trips.size();
     for (int i = 0; i < m_trips.size(); i++)
     {
-        m_trips.SerializeTo(stream);
+        m_trips[i].SerializeTo(stream);
     }
 }
 
-void User::DeserializeFrom(std::istream&)
+void User::DeserializeFrom(std::istream& stream)
 {
+    m_username = nDatabaseIO::ReadStr(stream);
+    m_password = nDatabaseIO::ReadStr(stream);
+    m_email = nDatabaseIO::ReadStr(stream);
 
+    int tripsCount = nDatabaseIO::ReadInt(stream);
+    m_trips = std::vector<Trip>(tripsCount);
+    for (int i = 0; i < tripsCount; i++)
+    {
+        m_trips[i].DeserializeFrom(stream);
+    }
 }
