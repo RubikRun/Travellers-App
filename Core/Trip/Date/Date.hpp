@@ -21,13 +21,6 @@ class Date : public Serializable, public Printable
     //Creates a date with the given year, month and day
     Date(int year, int month, int day);
 
-    //Operators for comparing two dates
-    friend bool operator==(const Date&, const Date&);
-    friend bool operator<(const Date&, const Date&);
-    friend bool operator<=(const Date&, const Date&);
-    friend bool operator>(const Date&, const Date&);
-    friend bool operator>=(const Date&, const Date&);
-
     //Serializes the date
     void SerializeTo(std::ostream&) const;
 
@@ -42,4 +35,17 @@ class Date : public Serializable, public Printable
 
     //Checks if a string represents a date (can be converted to a date)
     static bool IsStrDate(const str&);
+
+    //Operators for comparing two dates
+    friend bool operator==(const Date&, const Date&);
+    friend bool operator<(const Date&, const Date&);
+    friend bool operator<=(const Date&, const Date&);
+    friend bool operator>(const Date&, const Date&);
+    friend bool operator>=(const Date&, const Date&);
+
+  private:
+
+    //Creates an int representation of the date
+    //by literally concatenating the year, month and year
+    int ToInt() const;
 };
