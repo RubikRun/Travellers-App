@@ -34,11 +34,11 @@ void User::AddTrip(const str& dest, const Date& begin, const Date& end,
 
 void User::SerializeTo(std::ostream& stream) const
 {
-    stream << m_username << nDatabaseIO::DELIMETER
-         << m_password << nDatabaseIO::DELIMETER
-         << m_email << nDatabaseIO::DELIMETER;
+    nDatabaseIO::WriteStr(m_username, stream);
+    nDatabaseIO::WriteStr(m_password, stream);
+    nDatabaseIO::WriteStr(m_email, stream);
 
-    stream << m_trips.size();
+    nDatabaseIO::WriteInt(m_trips.size(), stream);
     for (int i = 0; i < m_trips.size(); i++)
     {
         m_trips[i].SerializeTo(stream);
