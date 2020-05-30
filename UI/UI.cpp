@@ -206,7 +206,8 @@ bool nInputValidator::Email(const str& s)
 
 bool nInputValidator::DateStr(const str& s)
 {
-    return Date::IsStrDate(s);
+    return Date::IsStrDate(s)
+        && Date::FromStr(s).IsValidCalendarDate();
 }
 
 bool nInputValidator::GradeStr(const str& s)

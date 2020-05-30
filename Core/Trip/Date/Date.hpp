@@ -36,6 +36,9 @@ class Date : public Serializable, public Printable
     //Checks if a string represents a date (can be converted to a date)
     static bool IsStrDate(const str&);
 
+    //Checks if the date is a valid calendar date
+    bool IsValidCalendarDate() const;
+
     //Operators for comparing two dates
     friend bool operator==(const Date&, const Date&);
     friend bool operator<(const Date&, const Date&);
@@ -48,4 +51,10 @@ class Date : public Serializable, public Printable
     //Creates an int representation of the date
     //by literally concatenating the year, month and year
     int ToInt() const;
+
+    //Returns the number of days in the given month on the given year
+    static int GetDaysInMonth(int month, int year);
+
+    //Checks if the year is a leap year
+    static bool IsLeapYear(int year);
 };

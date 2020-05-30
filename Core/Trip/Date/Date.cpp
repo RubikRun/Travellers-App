@@ -70,6 +70,40 @@ bool Date::IsStrDate(const str& s)
     return true;
 }
 
+bool Date::IsValidCalendarDate() const
+{
+    if (m_month < 1 || m_month > 12 || m_year < 0 || m_day < 1)
+        return false;
+
+    int daysInMonth = Date::GetDaysInMonth(m_month, m_year);
+    return (m_day <= daysInMonth);
+}
+
+int Date::GetDaysInMonth(int month, int year)
+{
+    if (month == 2)
+    {
+        if (Date::IsLeapYear(year))
+            return 29;
+        return 28;
+    }
+    if ((month + (month >= 8)) % 2 == 0)
+        return 30;
+    return 31;
+}
+
+bool Date::IsLeapYear(int year)
+{
+    if (year % 4)
+        return false;
+    else if (year % 100)
+        return true;
+    else if (year % 400)
+        return false;
+    else
+        return true;
+}
+
 #define DEFINE_OPERATOR(sign) \
 bool operator sign(const Date& date1, const Date& date2) \
 { return ( date1.ToInt() sign date2.ToInt() ); }

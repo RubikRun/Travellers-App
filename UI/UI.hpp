@@ -199,7 +199,7 @@ namespace nMsg
 
         const str DATE = 
         "Not a valid date.\n"
-        "Dates should be in dd.mm.yyyy format.";
+        "Dates should be in dd.mm.yyyy format and be an existing calendar date.";
 
         const str PHOTOS = 
         "Not valid photo names.\n"
