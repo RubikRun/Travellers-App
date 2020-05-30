@@ -8,6 +8,7 @@
 #include "../Database/Serializable.hpp"
 #include "../../UI/Printable.hpp"
 
+#include <iostream>
 #include <vector>
 #include <string>
 typedef std::string str;
@@ -39,10 +40,10 @@ class Trip : public Serializable, public Printable
         int grade, const str& comment, const std::vector<str>& photos);
 
     //Serializes the trip
-    str Serialize() const;
+    void SerializeTo(std::ostream&) const;
 
     //Deserializes the trip
-    void Deserialize(const str&);
+    void DeserializeFrom(std::istream&);
 
     //Prints the trip to the user
     void Print() const;

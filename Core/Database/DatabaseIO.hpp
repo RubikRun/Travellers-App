@@ -39,4 +39,6 @@ namespace nDatabaseIO
     void ReadObj(Serializable&, std::istream& db);
     //Writes a serializable object to a database
     void WriteObj(const Serializable&, std::ostream& db);
+
+    const char DELIMETER = '\n';
 }

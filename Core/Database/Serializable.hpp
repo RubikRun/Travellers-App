@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <string>
 typedef std::string str;
 
@@ -10,9 +11,9 @@ class Serializable
 {
   public:
 
-    //Serializes the object to a string
-    virtual str Serialize() const = 0;
+    //Serializes the object and writes it to a stream
+    virtual void SerializeTo(std::ostream&) const = 0;
 
-    //Deserializes the object from a string
-    virtual void Deserialize(const str&) = 0;
+    //Deserializes the object by reading it from a stream
+    virtual void DeserializeFrom(std::istream&) = 0;
 };

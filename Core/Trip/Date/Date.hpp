@@ -29,10 +29,10 @@ class Date : public Serializable, public Printable
     friend bool operator>=(const Date&, const Date&);
 
     //Serializes the date
-    str Serialize() const;
+    void SerializeTo(std::ostream&) const;
 
     //Deserializes the date
-    void Deserialize(const str&);
+    void DeserializeFrom(std::istream&);
 
     //Prints the date to the user
     void Print() const;

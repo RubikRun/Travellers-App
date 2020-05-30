@@ -7,6 +7,7 @@
 #include "../Trip/Trip.hpp"
 #include "../Database/Serializable.hpp"
 
+#include <iostream>
 #include <vector>
 #include <string>
 typedef std::string str;
@@ -48,8 +49,8 @@ class User : public Serializable
         int grade, const str& comment, const std::vector<str>& photos);
 
     //Serializes the user
-    str Serialize() const;
+    void SerializeTo(std::ostream&) const;
 
     //Deserializes the user
-    void Deserialize(const str&);
+    void DeserializeFrom(std::istream&);
 };
