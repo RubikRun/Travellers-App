@@ -1,5 +1,6 @@
 #include "DatabaseIO.hpp"
 
+#include <fstream>
 #include <queue>
 
 str nDatabaseIO::ReadStr(std::istream& db)
@@ -50,4 +51,15 @@ void nDatabaseIO::ReadObj(Serializable& obj, std::istream& db)
 void nDatabaseIO::WriteObj(const Serializable& obj, std::ostream& db)
 {
     obj.SerializeTo(db);
+}
+
+bool nDatabaseIO::DbExists(const str& dbName)
+{
+    std::ifstream db(dbName);
+
+    bool result = db.good();
+
+    db.close();
+
+    return result;
 }

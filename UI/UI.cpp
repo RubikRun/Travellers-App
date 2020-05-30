@@ -163,7 +163,7 @@ void nUI::PrintUsersGrades(const std::vector<UserGrade>& usersGrades)
 
 void nUI::PrintTrips(const std::vector<Trip>& trips)
 {
-    nUI::PrintMsg(nMsg::nList::TRIPS);
+    nUI::PrintMsg(nMsg::nList::TRIPS, "\n");
     for (int i = 0; i < trips.size(); i++)
     {
         str tripStr = trips[i].ToStr();

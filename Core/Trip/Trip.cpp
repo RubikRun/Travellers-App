@@ -56,7 +56,7 @@ str Trip::ToStr() const
         result += m_photos[i];
         if (i < m_photos.size() - 1)
         {
-            result += " ";
+            result += ", ";
         }
     }
 

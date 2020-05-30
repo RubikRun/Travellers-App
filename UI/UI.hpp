@@ -211,7 +211,7 @@ namespace nMsg
     namespace nDuplicate
     {
         const str USERNAME = "There is already a user with this username";
-        const str EMAIL = "There is already an email with this username";
+        const str EMAIL = "There is already a user with this email";
     }
 
     namespace nNotAllow

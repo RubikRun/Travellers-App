@@ -56,8 +56,12 @@ Core::Core()
 
 void Core::Load()
 {
-    this->LoadUsers(nDatabase::USERS);
-    this->LoadDests(nDatabase::DESTS);
+    if (nDatabaseIO::DbExists(nDatabase::USERS)
+        && nDatabaseIO::DbExists(nDatabase::DESTS))
+    {
+        this->LoadUsers(nDatabase::USERS);
+        this->LoadDests(nDatabase::DESTS);
+    }
 }
 
 void Core::Save()
@@ -162,8 +166,9 @@ bool Core::AreFr(const str& username1, const str& username2) const
     int user2 = this->FindUser(username2);
     if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
         return false;
+
     
-    return (m_friends.at(user1).count(user2) == 1 && m_friends.at(user2).count(user1) == 1);
+    return (this->UserFrsContain(user1, user2) && this->UserFrsContain(user2, user1));
 }
 
 bool Core::HasFrReqFrom(const str& username1, const str& username2) const
@@ -173,7 +178,7 @@ bool Core::HasFrReqFrom(const str& username1, const str& username2) const
     if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
         return false;
 
-    return (m_friends.at(user1).count(user2) == 0 && m_friends.at(user2).count(user1) == 1);
+    return (!this->UserFrsContain(user1, user2) && this->UserFrsContain(user2, user1));
 }
 
 void Core::SendFrReq(const str& username1, const str& username2)
@@ -183,7 +188,7 @@ void Core::SendFrReq(const str& username1, const str& username2)
     if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
         return;
 
-    m_friends[user1].insert(user2);
+    this->UserFrsAdd(user1, user2);
 }
 
 void Core::UnsendFrReq(const str& username1, const str& username2)
@@ -193,7 +198,7 @@ void Core::UnsendFrReq(const str& username1, const str& username2)
     if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
         return;
 
-    m_friends[user1].erase(user2);
+    this->UserFrsRm(user1, user2);
 }
 
 void Core::ConfirmFrReq(const str& username1, const str& username2)
@@ -206,7 +211,7 @@ void Core::ConfirmFrReq(const str& username1, const str& username2)
     if (m_friends[user2].count(user1) == 0)
         return;
 
-    m_friends[user1].insert(user2);
+    this->UserFrsAdd(user1, user2);
 }
 
 void Core::DeclineFrReq(const str& username1, const str& username2)
@@ -216,7 +221,7 @@ void Core::DeclineFrReq(const str& username1, const str& username2)
     if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
         return;
 
-    m_friends[user2].erase(user1);
+    this->UserFrsRm(user2, user1);
 }
 
 void Core::RmFr(const str& username1, const str& username2)
@@ -226,8 +231,8 @@ void Core::RmFr(const str& username1, const str& username2)
     if (user1 == nUser::NULL_IND || user2 == nUser::NULL_IND)
         return;
 
-    m_friends[user1].erase(user2);
-    m_friends[user2].erase(user1);
+    this->UserFrsRm(user1, user2);
+    this->UserFrsRm(user2, user1);
 }
 
 const std::vector<Trip>& Core::GetUserTrips(const str& username) const
@@ -247,8 +252,8 @@ std::vector<str> Core::GetCurrUserFrReqs() const
     for (auto it = m_friends.begin(); it != m_friends.end(); it++)
     {
         int otherUser = it->first;
-        if (m_friends.at(otherUser).count(m_currUserInd) == 1
-            && m_friends.at(m_currUserInd).count(otherUser) == 0)
+        if (this->UserFrsContain(otherUser, m_currUserInd) 
+            && !this->UserFrsContain(m_currUserInd, otherUser))
         {
             str otherUserUsername = m_users[otherUser].GetUsername();
             frReqs.push_back(otherUserUsername);
@@ -412,4 +417,23 @@ int Core::FindUser(const str& username) const
         }
     }
     return nUser::NULL_IND;
+}
+
+bool Core::UserFrsContain(int user1, int user2) const
+{
+    return (m_friends.find(user1) != m_friends.end() && m_friends.at(user1).count(user2) == 1);
+}
+
+void Core::UserFrsAdd(int user1, int user2)
+{
+    if (m_friends.find(user1) == m_friends.end())
+        m_friends[user1] = std::set<int>();
+    
+    m_friends[user1].insert(user2);
+}
+
+void Core::UserFrsRm(int user1, int user2)
+{
+    if (m_friends.find(user1) != m_friends.end())
+        m_friends[user1].erase(user2);
 }

@@ -142,4 +142,13 @@ class Core
 
     //Finds the user with this username, returns its index
     int FindUser(const str& username) const;
+
+    //Checks if the second user is in the friends of the first one
+    bool UserFrsContain(int user1, int user2) const;
+
+    //Adds the second user to the friends of the first one
+    void UserFrsAdd(int user1, int user2);
+
+    //Removes the second user from the friends of the first one
+    void UserFrsRm(int user1, int user2);
 };

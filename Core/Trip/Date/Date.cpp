@@ -43,7 +43,7 @@ Date Date::FromStr(const str& s)
     int month = (s[3] - '0') * 10 + (s[4] - '0');
     int day = (s[0] - '0') * 10 + (s[1] - '0');
 
-    Date date(year, month, year);
+    Date date(year, month, day);
 
     return date;
 }

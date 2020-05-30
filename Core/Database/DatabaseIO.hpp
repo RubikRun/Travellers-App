@@ -40,5 +40,8 @@ namespace nDatabaseIO
     //Writes a serializable object to a database
     void WriteObj(const Serializable&, std::ostream& db);
 
+    //Checks if a database with this name exists
+    bool DbExists(const str& dbName);
+
     const char DELIMETER = '\n';
 }
