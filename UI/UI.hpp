@@ -24,7 +24,7 @@ namespace nUI
     void PrintMsg(const str& msg, const str& begin = "", const str& end = "\n\n");
 
     //Prints a vector of strings to the user
-    void PrintVec(const std::vector<str>& vec, const str& beginMsg = "", const str& endMsg = "");
+    void PrintVec(const std::vector<str>& vec, const str& beginMsg = "", const str& endMsg = "", bool lineNumbers = true);
 
     namespace nError
     {

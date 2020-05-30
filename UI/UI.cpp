@@ -45,13 +45,17 @@ void nUI::PrintMsg(const str& msg, const str& begin, const str& end)
     std::cout << begin << msg << end;
 }
 
-void nUI::PrintVec(const std::vector<str>& vec, const str& beginMsg, const str& endMsg)
+void nUI::PrintVec(const std::vector<str>& vec, const str& beginMsg, const str& endMsg, bool lineNumbers)
 {
     nUI::PrintMsg(beginMsg);
 
     for (int i = 0; i < vec.size(); i++)
     {
-        std::cout << i + 1 << ". " << vec[i] << std::endl;
+        if (lineNumbers)
+        {
+            std::cout << i + 1 << ". ";
+        }
+        std::cout << vec[i] << std::endl;
     }
 
     nUI::PrintMsg(endMsg);
@@ -150,7 +154,7 @@ void nUI::PrintUsersGrades(const std::vector<UserGrade>& usersGrades)
     std::vector<str> userGradeStrs(usersGrades.size());
     for (int i = 0; i < usersGrades.size(); i++)
     {
-        userGradeStrs[i] = usersGrades[i].username + ": " + std::to_string(usersGrades[i].grade);
+        userGradeStrs[i] = usersGrades[i].username + " graded with " + std::to_string(usersGrades[i].grade);
     }
 
     //Print grades
