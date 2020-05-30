@@ -41,6 +41,9 @@ class Core
 
   public:
 
+    //Creates an empty core with no current user
+    Core();
+
     //Loads the core from the database
     void Load();
 

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-str nUI::ReadCommand(const str& beginMsg = "", const str& endMsg = "")
+str nUI::ReadCommand(const str& beginMsg, const str& endMsg)
 {
     str command;
 
@@ -14,8 +14,8 @@ str nUI::ReadCommand(const str& beginMsg = "", const str& endMsg = "")
 }
 
 str nUI::ReadValidInput(const str& enterMsg,
-    const std::function<bool(const str&)>& IsValid1 = [](const str&){return true;}, const str& invalidMsg1 = "",
-    const std::function<bool(const str&)>& IsValid2 = [](const str&){return true;}, const str& invalidMsg2 = "")
+    const std::function<bool(const str&)>& IsValid1, const str& invalidMsg1,
+    const std::function<bool(const str&)>& IsValid2, const str& invalidMsg2)
 {
     str input;
 
@@ -45,7 +45,7 @@ void nUI::PrintMsg(const str& msg, const str& begin, const str& end)
     std::cout << begin << msg << end;
 }
 
-void nUI::PrintVec(const std::vector<str>& vec, const str& beginMsg = "", const str& endMsg = "")
+void nUI::PrintVec(const std::vector<str>& vec, const str& beginMsg, const str& endMsg)
 {
     nUI::PrintMsg(beginMsg);
 
@@ -224,7 +224,7 @@ bool nInputValidator::Photo(const str& s)
     return true;
 }
 
-std::vector<str> nString::Split(const str& s, const char delimeter = ' ')
+std::vector<str> nString::Split(const str& s, const char delimeter)
 {
     std::vector<str> parts;
 

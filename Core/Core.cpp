@@ -46,6 +46,12 @@ namespace nFile
 namespace nUser
 {
     const int NULL_IND = -1;
+    const str NULL_USERNAME = "guest";
+}
+
+Core::Core()
+{
+    m_currUserInd = nUser::NULL_IND;
 }
 
 void Core::Load()
@@ -107,7 +113,10 @@ void Core::SetCurrUser(const str& username)
 
 const str& Core::GetCurrUser() const
 {
-    return m_users[m_currUserInd].GetUsername();
+    if (m_currUserInd == nUser::NULL_IND)
+        return nUser::NULL_USERNAME;
+    else
+        return m_users[m_currUserInd].GetUsername();
 }
 
 void Core::LogOutCurrUser()
