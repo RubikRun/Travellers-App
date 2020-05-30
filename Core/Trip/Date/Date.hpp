@@ -34,8 +34,8 @@ class Date : public Serializable, public Printable
     //Deserializes the date
     void DeserializeFrom(std::istream&);
 
-    //Prints the date to the user
-    void Print() const;
+    //Converts the date to a string
+    str ToStr() const;
 
     //Converts a string to a date
     static Date FromStr(const str&);

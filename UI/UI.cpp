@@ -156,7 +156,8 @@ void nUI::PrintTrips(const std::vector<Trip>& trips)
     nUI::PrintMsg(nMsg::nList::TRIPS);
     for (int i = 0; i < trips.size(); i++)
     {
-        trips[i].Print();
+        str tripStr = trips[i].ToStr();
+        nUI::PrintMsg(tripStr);
     }
 }
 

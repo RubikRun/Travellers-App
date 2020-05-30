@@ -185,6 +185,16 @@ namespace nMsg
     {
         const str FRREQS = "TODO";
     }
+
+    namespace nTrip
+    {
+        const str DEST = "TODO";
+        const str BEGIN_DATE = "TODO";
+        const str END_DATE = "TODO";
+        const str GRADE = "TODO";
+        const str COMMENT = "TODO";
+        const str PHOTOS = "TODO";
+    }
 }
 
 namespace nUsername

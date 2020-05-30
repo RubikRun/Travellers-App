@@ -45,6 +45,6 @@ class Trip : public Serializable, public Printable
     //Deserializes the trip
     void DeserializeFrom(std::istream&);
 
-    //Prints the trip to the user
-    void Print() const;
+    //Represents the trip with a string
+    str ToStr() const;
 };

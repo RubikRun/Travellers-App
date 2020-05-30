@@ -2,10 +2,13 @@
 
 #pragma once
 
+#include <string>
+typedef std::string str;
+
 class Printable
 {
   public:
 
-    //Prints the object to the user
-    virtual void Print() const = 0;
+    //Returns a user-friendly string representation of the object
+    virtual str ToStr() const = 0;
 };
